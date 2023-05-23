@@ -1,0 +1,26 @@
+.register {
+	width: 30vw;
+	min-width: 350px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin: 2rem auto 0 auto;
+	border-radius: 5px;
+	padding: 1rem 2rem;
+	background-color: var(--background-primary);
+}
+
+.register-input {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 1rem;
+	margin: 1rem 0;
+}
+
+.register-footer {
+	align-self: flex-end;
+}

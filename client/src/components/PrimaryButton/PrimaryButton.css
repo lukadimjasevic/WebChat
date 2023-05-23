@@ -1,0 +1,10 @@
+.primary-button {
+	min-width: 7rem;
+	height: 3rem;
+	border-radius: 5px;
+	background-color: var(--highlight-secondary);
+}
+
+.primary-button:hover {
+	background-color: var(--button-hover);
+}
