@@ -1,18 +1,7 @@
-export class NotificationSuccess {
-    constructor(message = "") {
+export class Notification {
+    constructor(message="", type="") {
         this.message = message;
-        this.type = "success";
-    }
-
-    setMessage(message) {
-        this.message = message;
-    }
-}
-
-export class NotificationWarning {
-    constructor(message = "") {
-        this.message = message;
-        this.type = "danger";
+        this.type = (type === "ok") ? "success" : "danger";
     }
 
     setMessage(message) {

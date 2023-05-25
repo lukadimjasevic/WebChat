@@ -1,11 +1,11 @@
-import MessageContainer from "./MessageContainer";
+//import MessageContainer from "./MessageContainer";
 import Navigation from "./Navigation";
 import PrimaryButton from "./PrimaryButton";
 import Alert from "./Alert";
 
 
 export {
-	MessageContainer,
+	/* MessageContainer, */
 	Navigation,
 	PrimaryButton,
 	Alert,
