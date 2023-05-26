@@ -8,6 +8,7 @@ export const registerUser = async(data) => {
 			"Content-Type": "application/json",
 		},
 		method: "POST",
+		credentials: "include",
 		body: JSON.stringify(data)
 	});
 
@@ -22,6 +23,7 @@ export const loginUser = async(data) => {
 			"Content-Type": "application/json",
 		},
 		method: "POST",
+		credentials: "include",
 		body: JSON.stringify(data)
 	});
 
