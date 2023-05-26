@@ -7,7 +7,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { sequelize } = require("./models");
 
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -21,7 +21,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
 	cors: {
-		origin: "http://192.168.5.130:5173",
+		origin: "http://localhost:5173",
 		methods: ["GET", "POST"],
 	}
 });
