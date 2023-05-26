@@ -70,23 +70,27 @@ exports.login = async(req, res, next) => {
 	const user = await db.User.findOne({ where: { email }});
 
 	if (!user)
-		return next(new error.HttpNotFound("Wrong email"));
+		return next(new error.HttpNotFound("Wrong email or password"));
 
 	bcrypt.compare(password, user.password, async(err, result) => {
 		if (err) throw err;
 
 		if (!result) 
-			return next(new error.HttpUnauthorized("Wrong password"));
+			return next(new error.HttpUnauthorized("Wrong email or password"));
 			
 		if (user.token !== null) {
 			const tokenCreated = new Date(user.token_created);
 			const tokenExpires = new Date(tokenCreated.getTime() + cookieExpires);
 			
-			if (tokenExpires < Date.now()) {
-				// Expired
-				await dbUtils.updateUserToken(user.email);
-			} else {
-				// Not expired
+			if (tokenExpires > Date.now()) {
+				// Not Expired
+				
+				res.cookie("access_token", user.token, {
+					expires: new Date(Date.now() + cookieExpires),
+					domain: "localhost",
+					sameSite: "None"
+				});
+
 				return res.json({
 					status: "ok",
 					message: "Successfully logged in",
@@ -99,7 +103,9 @@ exports.login = async(req, res, next) => {
 		await dbUtils.updateUserToken(user.email, token, tokenCreated);
 
 		res.cookie("access_token", token, {
-			expires: new Date(Date.now() + cookieExpires)
+			expires: new Date(Date.now() + cookieExpires),
+			domain: "localhost",
+			sameSite: "None"
 		});
 
 		return res.json({
