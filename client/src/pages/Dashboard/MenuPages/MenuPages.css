@@ -1,0 +1,17 @@
+.menu-page {
+	width: 50%;
+	min-width: 30rem;
+	display: flex;
+	justify-content: center;
+	padding: 10px;
+	border-radius: 5px;
+	background-color: var(--background-primary);
+}
+
+.menu-page-title {
+	width: 100%;
+	height: 3rem;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
