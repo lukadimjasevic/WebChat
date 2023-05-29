@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { PrimaryButton, Alert } from "../../components";
 import { LoginData } from "./utils/LoginData";
 import { loginUser } from "../../fetchers/post";
@@ -8,11 +9,14 @@ const Login = () => {
 
     const [login, setLogin] = useState(new LoginData());
     const [alert, setAlert] = useState(null);
+    const navigate = useNavigate();
 
     const handleLogin = async() => {
         const { status, message } = await loginUser(login);
 
-        return setAlert(new Notification(message, status))
+        if (status === "error") return setAlert(new Notification(message, status));
+
+        navigate("/dashboard");
     }
 
     return (
