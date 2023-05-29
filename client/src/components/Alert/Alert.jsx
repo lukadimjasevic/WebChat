@@ -1,6 +1,8 @@
 import React from "react";
 import "./Alert.css";
-import { BsCheckCircleFill, AiFillInfoCircle, BsFillExclamationTriangleFill, IoClose } from "react-icons/all";
+import { BsCheckCircleFill, BsFillExclamationTriangleFill } from "react-icons/bs";
+import { AiFillInfoCircle } from "react-icons/ai";
+import { GrClose } from "react-icons/gr";
 
 const Alert = ({ children, type = "success", onClose }) => {
     let AlertIcon, alertColor;
@@ -26,7 +28,7 @@ const Alert = ({ children, type = "success", onClose }) => {
         >
             <AlertIcon color={alertColor} size={25} />
             <span>{children}</span>
-            <IoClose color="var(--text-primary)" size={25} className="icon" onClick={onClose} />
+            <GrClose color="var(--text-primary)" size={25} className="icon" onClick={onClose} />
         </div>
     );
 };
