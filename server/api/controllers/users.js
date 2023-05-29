@@ -127,5 +127,18 @@ exports.logout = async(req, res, next) => {
 	return res.json({
 		status: "ok",
 		message: "Successfully logged out",
-	})
+	});
+}
+
+
+exports.getUser = async(req, res, next) => {
+	const token = res.locals.token;
+
+	const user = await dbUtils.getUser(token);
+
+	return res.json({
+		status: "ok",
+		message: "Successfully fetched user data",
+		data: user,
+	});
 }
