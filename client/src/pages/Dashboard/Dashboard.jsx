@@ -1,26 +1,18 @@
 import React, { useState } from "react";
 import "./Dashboard.css";
 import { MdPerson, MdSettings, MdPalette, MdNotifications } from "react-icons/md";
-import MyProfile from "./MenuPages/MyProfile";
-import Account from "./MenuPages/Account";
-import Appearance from "./MenuPages/Appearance";
-import Notifications from "./MenuPages/Notifications";
+import { Outlet, Link } from "react-router-dom";
 
 const Dashboard = () => {
 
     const menuProfileItems = [
-        { Icon: MdPerson, name: "My profile", Element: MyProfile },
-        { Icon: MdSettings, name: "Account", Element: Account },
-        { Icon: MdPalette, name: "Appearance", Element: Appearance },
-        { Icon: MdNotifications, name: "Notifications", Element: Notifications },
+        { Icon: MdPerson, name: "My profile", path: "/profile" },
+        { Icon: MdSettings, name: "Account", path: "/account" },
+        { Icon: MdPalette, name: "Appearance", path: "/appearance" },
+        { Icon: MdNotifications, name: "Notifications", path: "/notifications" },
     ];
 
     const [selectedItem, setSelectedItem] = useState(0);
-
-    const renderMenuElement = () => {
-        const MenuElement = menuProfileItems[selectedItem].Element;
-        return <MenuElement />;
-    }
 
     return (
     <div className="dashboard">
@@ -28,8 +20,8 @@ const Dashboard = () => {
         <div className="dashboard-menu">
             <div className="dashboard-menu-part">
                 <span className="dashboard-menu-title">User</span>
-                {menuProfileItems.map(({ Icon, name }, index) => (
-                    <button 
+                {menuProfileItems.map(({ Icon, name, path }, index) => (
+                    <Link to={"/dashboard" + path}
                         key={index} 
                         className={index === selectedItem 
                             ? "dashboard-menu-item dashboard-menu-item-selected" 
@@ -38,13 +30,13 @@ const Dashboard = () => {
                     >
                         <Icon size={24} />
                         <span>{name}</span>
-                    </button>
+                    </Link>
                 ))}
             </div>
         </div>
 
         <div className="dashboard-whitespace">
-            {renderMenuElement()}
+            <Outlet />
         </div>
 
     </div>
