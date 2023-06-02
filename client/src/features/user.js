@@ -13,10 +13,14 @@ export const userSlice = createSlice({
 			const { username, email } = action.payload;
 			state.username = username;
 			state.email = email;
+		},
+		updateUsername: (state, action) => {
+			const { username } = action.payload;
+			state.username = username;
 		}
 	}
 });
 
-export const { addUser } = userSlice.actions;
+export const { addUser, updateUsername } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,42 +1,14 @@
 .menu-page {
-	width: 50%;
-	min-width: 30rem;
-	display: flex;
 	flex-direction: column;
-	padding: 10px;
 	border-radius: 5px;
 	background-color: var(--background-primary);
 }
 
-.menu-page-title {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: flex-start;
-	margin: 0 0 10px 0;
-}
-
-.menu-page-title hr {
-	width: 100%;
-	color: var(--highlight-secondary);
-}
-
 .upload-profile-picture {
-	width: 140px;
-	height: 140px;
 	border-radius: 50%;
 	object-fit: cover;
 }
 
 .upload-profile-picture:hover {
 	opacity: 0.2;
-}
-
-.change-profile-picture {
-	position: relative;
-	bottom: 2rem;
-	right: 2rem;
-	padding: 5px;
-	background-color: var(--background-secondary);
 }

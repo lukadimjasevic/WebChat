@@ -27,7 +27,7 @@ const App = () => {
                 <Route element={<ProtectedRoutes />}>
                     <Route path="/dashboard" element={<Dashboard />}>
                         <Route index element={<Navigate to="/dashboard/profile"/>} />
-                        <Route path="/dashboard/profile" element={<MyProfile />} />
+                        <Route path="/dashboard/profile" element={<MyProfile />} loader={getUser} />
                         <Route path="/dashboard/account" element={<Account />} />
                         <Route path="/dashboard/appearance" element={<Appearance />} />
                         <Route path="/dashboard/notifications" element={<Notifications />} />

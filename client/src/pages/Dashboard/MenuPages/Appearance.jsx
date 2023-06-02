@@ -3,10 +3,9 @@ import "./MenuPages.css";
 
 const Appearance = () => {
     return (
-	<div className="menu-page">
-		<div className="menu-page-title">
-			<span>Appearance</span>
-		</div>
+	<div className="container w-75 p-3 menu-page">
+		<span>Appearance</span>
+		<hr />
 	</div>
 	);
 };

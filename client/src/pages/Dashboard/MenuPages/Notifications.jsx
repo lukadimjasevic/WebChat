@@ -3,10 +3,9 @@ import "./MenuPages.css";
 
 const Notifications = () => {
     return (
-	<div className="menu-page">
-		<div className="menu-page-title">
-			<span>Notifications</span>
-		</div>
+	<div className="container w-75 p-3 menu-page">
+		<span>Notifications</span>
+		<hr />
 	</div>
 	);
 };
