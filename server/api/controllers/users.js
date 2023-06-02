@@ -5,21 +5,43 @@ const { Op } = require("sequelize");
 const bcrypt = require("bcrypt");
 const error = require("../../errors");
 const fs = require("fs");
+const constants = require("../../utils/constants/data");
 
 const cookieExpires = 7 * 24 * 3600000; // 7 days
+
+
+const checkUsername = (username, next) => {
+	if (!username || username.length < constants.USER_USERNAME_MIN || username.length > constants.USER_USERNAME_MAX) 
+		return next(new error.HttpBadRequest(`The username must have between ${constants.USER_USERNAME_MIN} and ${constants.USER_USERNAME_MAX} characters`));
+}
+
+const checkPassword = (password, next) => {
+	if (!password || password.length < constants.USER_PASSWORD_MIN || password.length > constants.USER_PASSWORD_MAX) 
+		return next(new error.HttpBadRequest(`The password must have between ${constants.USER_PASSWORD_MIN} and ${constants.USER_PASSWORD_MAX} characters`));
+}
+
+const checkEmail = (email, next) => {
+	if (!email || email.length < constants.USER_EMAIL_MIN || email.length > constants.USER_EMAIL_MAX) 
+		return next(new error.HttpBadRequest(`The email must have between ${constants.USER_EMAIL_MIN} and ${constants.USER_EMAIL_MAX} characters`));
+}
+
+const checkName = (name, next) => {
+	if (name.length > constants.USER_NAME_MAX) 
+		return next(new error.HttpBadRequest(`The name can have a maximum of ${constants.USER_NAME_MAX} characters`));
+}
+
+const checkBio = (bio, next) => {
+	if (bio.length > constants.USER_BIO_MAX)
+		return next(new error.HttpBadRequest(`The bio can have a maximum of ${constants.USER_BIO_MAX} characters`));
+}
 
 
 exports.register = async(req, res, next) => {
 	const { username, password, email } = req.body;
 
-	if (!username || username.length < 3 || username.length > 24) 
-		return next(new error.HttpBadRequest("The username must have between 3 and 24 characters"));
-	
-	if (!password || password.length < 3 || password.length > 16) 
-		return next(new error.HttpBadRequest("The password must have between 3 and 16 characters"));
-
-	if (!email || email.length < 3 || email.length > 320) 
-		return next(new error.HttpBadRequest("The email must have between 3 and 320 characters"));
+	checkUsername(username, next);
+	checkPassword(password, next);
+	checkEmail(email, next);
 
 	const checkUser = await db.User.findOne(
 		{ where: { 
@@ -62,11 +84,8 @@ exports.register = async(req, res, next) => {
 exports.login = async(req, res, next) => {
 	const { email, password } = req.body;
 
-	if (!password || password.length < 3 || password.length > 16) 
-		return next(new error.HttpBadRequest("The password must have between 3 and 16 characters"));
-
-	if (!email || email.length < 3 || email.length > 320) 
-		return next(new error.HttpBadRequest("The email must have between 3 and 320 characters"));
+	checkPassword(password, next);
+	checkEmail(email, next);
 
 	const user = await db.User.findOne({ where: { email }});
 
@@ -118,9 +137,8 @@ exports.login = async(req, res, next) => {
 
 
 exports.logout = async(req, res, next) => {
-	const token = res.locals.token;
+	const { user } = res.locals;
 
-	const user = await dbUtils.getUser(token);
 	user.update({ token: null, token_created: null });
 
 	res.clearCookie("access_token");
@@ -149,17 +167,13 @@ exports.updateUserProfile = async(req, res, next) => {
 	const { user } = res.locals;
 	const { name, bio } = req.body;
 
-	if (name.length > 16) 
-		return next(new error.HttpBadRequest("The name can have a maximum of 16 characters"));
+	checkName(name, next);
+	checkBio(bio, next);
 
-	if (bio.length > 255)
-		return next(new error.HttpBadRequest("The bio can have a maximum of 255 characters"));
-	
 	if (req.file) {
 		fs.readFile(req.file.path, (err, data) => {
 			if (err) {
 				console.error(err);
-				
 				return next(new error.InternalServerError("An error has occurred while trying to read the profile picture"));
 			}
 			
@@ -180,9 +194,8 @@ exports.updateUserProfile = async(req, res, next) => {
 exports.updateUserAccount = async(req, res, next) => {
 	const { user } = res.locals;
 	const { username } = req.body;
-	console.log(req.body);
-	if (!username || username.length < 3 || username.length > 24) 
-		return next(new error.HttpBadRequest("The username must have between 3 and 24 characters"));
+
+	checkUsername(username, next);
 
 	const checkUser = await db.User.findOne({ where: { username }});
 
