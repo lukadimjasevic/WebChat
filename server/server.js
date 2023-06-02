@@ -45,7 +45,7 @@ io.on("connection", (socket) => {
 server.listen(port, async() => {
 	console.log("Server is running...");
 
-	// await sequelize.sync({ force: true });
+	//await sequelize.sync({ force: true });
 	await sequelize.authenticate();
 	console.log("Database connected!");
 });
