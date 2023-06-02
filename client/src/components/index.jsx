@@ -3,6 +3,7 @@ import Navigation from "./Navigation";
 import PrimaryButton from "./PrimaryButton";
 import Alert from "./Alert";
 import Input from "./Input";
+import Loader from "./Loader";
 
 
 export {
@@ -11,4 +12,5 @@ export {
 	PrimaryButton,
 	Alert,
 	Input,
+	Loader,
 };
