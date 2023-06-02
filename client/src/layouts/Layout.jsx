@@ -1,17 +1,19 @@
 import React from "react";
 import { Outlet, useLoaderData, useNavigation } from "react-router-dom";
-import { Navigation } from "../components";
+import { Navigation, Loader, Alert } from "../components";
 import { useDispatch } from "react-redux";
 import { addUser } from "../features/user";
+import { useAlert } from "../store/hooks";
 
 const Layout = () => {
 
     const isAuth = useLoaderData();
     const navigation = useNavigation();
     const dispatch = useDispatch();
+    const alert = useAlert();
 
     if (navigation.state === "loading") {
-        return <h1>Loading...</h1>
+        return <Loader />
     }
 
     if (isAuth.data) {
@@ -22,6 +24,7 @@ const Layout = () => {
         <>
             <Navigation />
             <Outlet />
+            { alert.visible ? <Alert /> : null}
         </>
     );
 };

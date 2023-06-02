@@ -3,6 +3,7 @@
 	height: 3rem;
 	border-radius: 5px;
 	background-color: var(--highlight-secondary);
+	padding: 0 !important;
 }
 
 .primary-button:hover {

@@ -4,6 +4,7 @@ const dbUtils = require("../database");
 const { Op } = require("sequelize");
 const bcrypt = require("bcrypt");
 const error = require("../../errors");
+const fs = require("fs");
 
 const cookieExpires = 7 * 24 * 3600000; // 7 days
 
@@ -132,13 +133,67 @@ exports.logout = async(req, res, next) => {
 
 
 exports.getUser = async(req, res, next) => {
-	const token = res.locals.token;
+	const { username, email, name, bio, picture } = res.locals.user;
 
-	const user = await dbUtils.getUser(token);
+	const userData = { username, email, name, bio, picture };
 
 	return res.json({
 		status: "ok",
 		message: "Successfully fetched user data",
-		data: user,
+		data: userData,
+	});
+}
+
+
+exports.updateUserProfile = async(req, res, next) => {
+	const { user } = res.locals;
+	const { name, bio } = req.body;
+
+	if (name.length > 16) 
+		return next(new error.HttpBadRequest("The name can have a maximum of 16 characters"));
+
+	if (bio.length > 255)
+		return next(new error.HttpBadRequest("The bio can have a maximum of 255 characters"));
+	
+	if (req.file) {
+		fs.readFile(req.file.path, (err, data) => {
+			if (err) {
+				console.error(err);
+				
+				return next(new error.InternalServerError("An error has occurred while trying to read the profile picture"));
+			}
+			
+			const base64String = data.toString("base64");
+			user.update({ picture: base64String });
+		});
+	}
+
+	user.update({ name, bio });
+	
+	return res.json({
+		status: "ok",
+		message: "Successfully updated profile settings",
+	});
+}
+
+
+exports.updateUserAccount = async(req, res, next) => {
+	const { user } = res.locals;
+	const { username } = req.body;
+	console.log(req.body);
+	if (!username || username.length < 3 || username.length > 24) 
+		return next(new error.HttpBadRequest("The username must have between 3 and 24 characters"));
+
+	const checkUser = await db.User.findOne({ where: { username }});
+
+	if (checkUser) 
+		return next(new error.HttpConflict("The username is already taken"));
+
+	user.update({ username });
+
+	return res.json({
+		status: "ok",
+		message: "Successfully updated account settings",
+		data: { username }
 	});
 }

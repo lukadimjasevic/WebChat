@@ -1,0 +1,14 @@
+.menu-page {
+	flex-direction: column;
+	border-radius: 5px;
+	background-color: var(--background-primary);
+}
+
+.upload-profile-picture {
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.upload-profile-picture:hover {
+	opacity: 0.2;
+}
