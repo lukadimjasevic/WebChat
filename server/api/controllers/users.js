@@ -1,3 +1,4 @@
+const { HOST } = require("../../config/server.json");
 const { createToken } = require("../generateString");
 const db = require("../../models");
 const dbUtils = require("../database");
@@ -66,7 +67,9 @@ exports.register = async(req, res, next) => {
 		const user = await dbUtils.createUser(username, hash, email, token, tokenCreated);
 
 		res.cookie("access_token", token, {
-			expires: new Date(Date.now() + cookieExpires)
+			expires: new Date(Date.now() + cookieExpires),
+			domain: HOST,
+			sameSite: "None"
 		});
 
 		return res.json({
@@ -107,7 +110,7 @@ exports.login = async(req, res, next) => {
 				
 				res.cookie("access_token", user.token, {
 					expires: new Date(Date.now() + cookieExpires),
-					domain: "localhost",
+					domain: HOST,
 					sameSite: "None"
 				});
 
@@ -124,7 +127,7 @@ exports.login = async(req, res, next) => {
 
 		res.cookie("access_token", token, {
 			expires: new Date(Date.now() + cookieExpires),
-			domain: "localhost",
+			domain: HOST,
 			sameSite: "None"
 		});
 

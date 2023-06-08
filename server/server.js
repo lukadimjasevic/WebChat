@@ -1,13 +1,15 @@
+const { HOST, PORT } = require("./config/server.json");
 const express = require("express");
 const app = express();
 const http = require("http");
-const port = process.env.PORT || 3000;
+const port = PORT;
 const { Server } = require("socket.io");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { sequelize } = require("./models");
+const { checkToken } = require("./socket/middlewares/checkToken");
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: `http://${HOST}:5173`, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -19,33 +21,42 @@ app.use(require("./api/middlewares/error").handleError);
 
 const server = http.createServer(app);
 
+server.listen(port, async() => {
+	console.log("Server is running...");
+	//await sequelize.sync({ force: true });
+	await sequelize.authenticate();
+	console.log("Database connected!");
+});
+
 const io = new Server(server, {
 	cors: {
-		origin: "http://localhost:5173",
+		origin: `http://${HOST}:5173`,
 		methods: ["GET", "POST"],
 	}
 });
 
-const messages = [
-	{userId: 1, user: "Luka", color: "blue", message: "Bok"},
-	{userId: 2, user: "Mirko", color: "orange", message: "Bok i tebi"}
-];
-
 io.on("connection", (socket) => {
 	console.log(`User Connected: ${socket.id}`);
 
-	socket.emit("receive_message", messages);
-
-	socket.on("send_message", (data) => {
-		messages.push(data);
-		io.emit("receive_message", messages);
+	socket.on("join_room", ({ groupId }) => {
+		socket.join(groupId);
 	});
-});
 
-server.listen(port, async() => {
-	console.log("Server is running...");
+	socket.on("receive_message", async(data) => {
+		const { username, groupId, accessToken, message } = data;
+		let auth;
 
-	//await sequelize.sync({ force: true });
-	await sequelize.authenticate();
-	console.log("Database connected!");
+		try { auth = await checkToken(accessToken); }
+		catch { return; }
+
+		if (auth.status !== "ok") return;
+
+		const createdAt = new Date();
+
+		io.to(groupId).emit("receive_message", {
+			message,
+			username,
+			createdAt
+		});
+	});
 });
