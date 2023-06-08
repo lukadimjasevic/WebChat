@@ -1,0 +1,4 @@
+.tip {
+	border-radius: 5px;
+	background-color: var(--highlight-primary);
+}

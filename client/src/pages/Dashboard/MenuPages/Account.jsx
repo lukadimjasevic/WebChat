@@ -25,8 +25,7 @@ const Account = () => {
 	}
 
     return (
-	<div className="container w-75 p-3 menu-page">
-
+	<>
 		<span>Account</span>
 		<hr />
 		<div className="row align-items-end g-0">
@@ -44,8 +43,7 @@ const Account = () => {
 			Change username
 			</PrimaryButton>
 		</div>
-
-	</div>
+	</>
 	);
 };
 

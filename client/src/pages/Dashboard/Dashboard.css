@@ -1,29 +1,10 @@
 .dashboard {
-	width: 100%;
 	height: calc(100vh - 4rem);
-	display: flex;
 }
 
 .dashboard-menu {
 	width: 20rem;
-	height: 100%;
 	background-color: var(--background-primary);
-}
-
-.dashboard-menu-part {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	justify-content: center;
-}
-
-.dashboard-menu-title {
-	width: 100%;
-	height: 2rem;
-	padding: 10px;
-	font-size: small;
-	border-bottom: 1px solid var(--highlight-primary);
 }
 
 .dashboard-menu-item {
@@ -42,12 +23,4 @@
 	padding-left: 20px;
 	background-color: var(--highlight-primary);
 	color: var(--highlight-secondary);
-}
-
-.dashboard-whitespace {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-	padding: 10px;
 }

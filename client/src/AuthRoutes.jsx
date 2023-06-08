@@ -6,7 +6,7 @@ const AuthRoutes = () => {
 
 	const user = useUser();
 
-	return user.username ? <Navigate to="/dashboard"/> : <Outlet />;
+	return user.username ? <Navigate to="/chats"/> : <Outlet />;
 };
 
 export default AuthRoutes;

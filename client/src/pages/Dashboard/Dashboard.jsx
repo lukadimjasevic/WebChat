@@ -15,11 +15,14 @@ const Dashboard = () => {
     const [selectedItem, setSelectedItem] = useState(0);
 
     return (
-    <div className="dashboard">
+    <div className="row g-0 dashboard">
 
-        <div className="dashboard-menu">
-            <div className="dashboard-menu-part">
-                <span className="dashboard-menu-title">User</span>
+        <div className="col-md-3 px-3 pt-3 dashboard-menu fs-14">
+            <div className="row row-cols-1 g-0 w-100">
+                <div className="row row-cols-1 g-0 gap-2 text-uppercase text-highlight">
+                    <span className="col">User</span>
+                    <hr className="col" />
+                </div>
                 {menuProfileItems.map(({ Icon, name, path }, index) => (
                     <Link to={"/dashboard" + path}
                         key={index} 
@@ -35,8 +38,10 @@ const Dashboard = () => {
             </div>
         </div>
 
-        <div className="dashboard-whitespace">
-            <Outlet />
+        <div className="col-md-9">
+            <div className="mx-3 p-3 menu-page">
+                <Outlet />
+            </div>
         </div>
 
     </div>
