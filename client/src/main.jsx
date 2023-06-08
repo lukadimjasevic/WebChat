@@ -9,11 +9,9 @@ import "./assets/styles/index.css";
 import "./assets/styles/components.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <CookiesProvider>
-                <App />
-            </CookiesProvider>
-        </Provider>
-    </React.StrictMode>
+    <Provider store={store}>
+        <CookiesProvider>
+            <App />
+        </CookiesProvider>
+    </Provider>
 );

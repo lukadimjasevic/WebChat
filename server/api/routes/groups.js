@@ -7,6 +7,7 @@ const { use } = require("../middlewares/use");
 router.post("/", use(checkToken), use(groupsController.createGroup));
 router.post("/join", use(checkToken), use(groupsController.joinGroup));
 
-router.get("/:groupCode", use(groupsController.getGroupUsers));
+router.get("/", use(checkToken), use(groupsController.getUserGroups));
+router.get("/:groupId", use(checkToken), use(groupsController.getGroup));
 
 module.exports = router;

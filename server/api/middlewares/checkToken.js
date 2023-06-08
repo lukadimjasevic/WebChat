@@ -1,4 +1,3 @@
-const db = require("../../models");
 const dbUtils = require("../database");
 const error = require("../../errors");
 

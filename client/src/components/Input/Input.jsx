@@ -25,7 +25,8 @@ const Input = ({ type="text", placeholder, label, onChange, reference=null, text
 				type={type} 
 				placeholder={placeholder} 
 				onChange={onChange} 
-				ref={reference} 
+				ref={reference}
+				className="custom-input-input"
 			/>
 		</div>
 	);

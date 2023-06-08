@@ -16,7 +16,7 @@ const MyProfile = () => {
 	const nameRef = useRef();
 	const bioRef = useRef();
 	const pictureRef = useRef();
-
+	
 	const [previewPicture, setPreviewPicture] = useState(`data:image/png;base64,${picture}`);
 	const [profile, setProfile] = useState(new Profile(name, bio, picture)); // Maybe Redux is better option
 
@@ -44,8 +44,7 @@ const MyProfile = () => {
 	}
 
     return (
-	<div className="container w-75 p-3 menu-page">
-
+	<>
 		<span>My profile</span>
 		<hr />
 		<div className="row flex-row justify-content-between align-items-start fs-14">
@@ -83,8 +82,7 @@ const MyProfile = () => {
 		<div className="d-flex justify-content-end mt-2">
 			<PrimaryButton onClick={handleOnUpdateProfile}>Update</PrimaryButton>
 		</div>
-
-	</div>
+	</>
 	);
 };
 

@@ -1,7 +1,6 @@
 .menu-page {
-	flex-direction: column;
 	border-radius: 5px;
-	background-color: var(--background-primary);
+	background-color: var(--background-secondary);
 }
 
 .upload-profile-picture {
