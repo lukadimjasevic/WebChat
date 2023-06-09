@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./MenuPages.css";
+import { AiOutlineUser } from "react-icons/ai";
 import { Input, PrimaryButton } from "../../../components";
-import { BsPersonCircle } from "react-icons/bs";
 import { Profile } from "./utils/Profile";
 import { updateProfile } from "./utils/put";
 import { useLoaderData } from "react-router-dom";
@@ -17,7 +17,7 @@ const MyProfile = () => {
 	const bioRef = useRef();
 	const pictureRef = useRef();
 	
-	const [previewPicture, setPreviewPicture] = useState(`data:image/png;base64,${picture}`);
+	const [previewPicture, setPreviewPicture] = useState(picture ? `data:image/png;base64,${picture}` : null);
 	const [profile, setProfile] = useState(new Profile(name, bio, picture)); // Maybe Redux is better option
 
 	useEffect(() => {
@@ -68,11 +68,11 @@ const MyProfile = () => {
 				<input type="file" ref={pictureRef} style={{display: "none"}} onChange={handleOnChangePicture}/>
 				<span className="mb-2">Profile picture</span>
 				<button type="button" className="mb-3" onClick={() => pictureRef.current.click()}>
-					{!previewPicture 
-						? <BsPersonCircle size={140} />
+					{!previewPicture
+						? <AiOutlineUser className="upload-profile-picture" />
 						: <img 
 							src={previewPicture} 
-							className="w-75 upload-profile-picture"
+							className="upload-profile-picture"
 						/>
 					}
 				</button>

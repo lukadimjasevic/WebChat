@@ -4,8 +4,11 @@
 }
 
 .upload-profile-picture {
+	border: 5px solid white;
 	border-radius: 50%;
 	object-fit: cover;
+	width: 150px;
+	height: 150px;
 }
 
 .upload-profile-picture:hover {
