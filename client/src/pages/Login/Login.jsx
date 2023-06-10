@@ -27,7 +27,7 @@ const Login = () => {
                 type="email"
                 id="email" 
                 placeholder="Enter an email" 
-                className="form-control bg-secondary text-primary"
+                className="form-control bg-custom-secondary text-primary"
                 onChange={(e) => setLogin(login.setEmail(e.target.value))}
             />
             <label htmlFor="email">Email</label>
@@ -38,7 +38,7 @@ const Login = () => {
                 type="password"
                 id="password" 
                 placeholder="Enter a password" 
-                className="form-control bg-secondary text-primary"
+                className="form-control bg-custom-secondary text-primary"
                 onChange={(e) => setLogin(login.setPassword(e.target.value))}
             />
             <label htmlFor="password">Password</label>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet, useLoaderData, useNavigation } from "react-router-dom";
-import { Navigation, Loader, Alert } from "../components";
+import { Navbar, Loader, Alert } from "../components";
 import { useDispatch } from "react-redux";
 import { addUser } from "../features/user";
 import { useAlert } from "../store/hooks";
@@ -22,8 +22,8 @@ const Layout = () => {
 
     return (
         <>
-            <Navigation />
-            <div className="bg-primary py-3">
+            <Navbar />
+            <div className="bg-custom-primary py-3">
                 <Outlet />
             </div>
             { alert.visible ? <Alert /> : null}

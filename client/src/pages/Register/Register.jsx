@@ -34,7 +34,7 @@ const Register = () => {
                 type="text"
                 id="username" 
                 placeholder="Enter a username" 
-                className="form-control bg-secondary text-primary"
+                className="form-control bg-custom-secondary text-primary"
                 onChange={(e) => setRegister(register.setUsername(e.target.value))} 
             />
             <label htmlFor="username">Username</label>
@@ -45,7 +45,7 @@ const Register = () => {
                 type="email"
                 id="email" 
                 placeholder="Enter an email" 
-                className="form-control bg-secondary text-primary"
+                className="form-control bg-custom-secondary text-primary"
                 onChange={(e) => setRegister(register.setEmail(e.target.value))}
             />
             <label htmlFor="email">Email</label>
@@ -56,7 +56,7 @@ const Register = () => {
                 type="password"
                 id="password" 
                 placeholder="Create a password" 
-                className="form-control bg-secondary text-primary"
+                className="form-control bg-custom-secondary text-primary"
                 onChange={(e) => setRegister(register.setPassword(e.target.value))}
             />
             <label htmlFor="password">Password</label>
@@ -67,7 +67,7 @@ const Register = () => {
                 type="password"
                 id="password-retype" 
                 placeholder="Retype a password" 
-                className="form-control bg-secondary text-primary"
+                className="form-control bg-custom-secondary text-primary"
                 onChange={(e) => setRegister(register.setRetypePassword(e.target.value))}
             />
             <label htmlFor="password-retype">Retype a password</label>

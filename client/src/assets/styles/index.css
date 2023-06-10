@@ -97,10 +97,10 @@ button {
 	color: var(--highlight-secondary);
 }
 
-.bg-primary {
+.bg-custom-primary {
 	background-color: var(--background-primary) !important;
 }
 
-.bg-secondary {
+.bg-custom-secondary {
 	background-color: var(--background-secondary) !important;
 }

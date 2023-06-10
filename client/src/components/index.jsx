@@ -1,5 +1,4 @@
-//import MessageContainer from "./MessageContainer";
-import Navigation from "./Navigation";
+import Navbar from "./Navbar";
 import PrimaryButton from "./PrimaryButton";
 import Alert from "./Alert";
 import Input from "./Input";
@@ -8,8 +7,7 @@ import Tip from "./Tip";
 
 
 export {
-	/* MessageContainer, */
-	Navigation,
+	Navbar,
 	PrimaryButton,
 	Alert,
 	Input,
