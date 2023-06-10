@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import { store } from "./store/store.js";
 import "bootstrap/dist/css/bootstrap.css";
 import "./assets/styles/index.css";
-import "./assets/styles/components.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>

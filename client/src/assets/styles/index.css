@@ -19,13 +19,12 @@
 }
 
 html {
-	max-height: 1500px;
+	background-color: var(--background-primary);
 }
 
 body {
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	color: var(--text-primary);
-	background-color: var(--background-secondary);
 }
 
 button {
@@ -48,6 +47,32 @@ button {
 	background-color: var(--highlight-primary);
 }
 
+.btn-msg-send {
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
+	background-color: var(--highlight-secondary);
+}
+
+.btn-msg-send:hover {
+	background-color: var(--button-hover);
+}
+
+.input-msg {
+	width: max(50%, 16rem);
+	height: 3rem;
+	outline: none;
+	border: none;
+	border-radius: 30px;
+	padding: 0 10px;
+	color: var(--text-primary);
+	background-color: var(--background-secondary);
+}
+
+.input-msg:focus {
+	border-radius: 15px;
+}
+
 .fs-14 {
 	font-size: 14px;
 }
@@ -61,7 +86,7 @@ button {
 }
 
 .text-primary {
-	color: var(--text-primary);
+	color: var(--text-primary) !important;
 }
 
 .text-secondary {
@@ -70,4 +95,12 @@ button {
 
 .text-highlight {
 	color: var(--highlight-secondary);
+}
+
+.bg-primary {
+	background-color: var(--background-primary) !important;
+}
+
+.bg-secondary {
+	background-color: var(--background-secondary) !important;
 }

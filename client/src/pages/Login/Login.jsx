@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { PrimaryButton } from "../../components";
 import { LoginData } from "./utils/LoginData";
 import { loginUser } from "../../api/users";
 
@@ -17,21 +16,40 @@ const Login = () => {
     }
 
     return (
-    <div className="form">
-        <span>Login</span>
-        <div className="form-row">
-            <label>Email</label>
-            <input type="email" placeholder="Enter an email" className="custom-input-box" 
-            onChange={(e) => setLogin(login.setEmail(e.target.value))} />
+    <div className="container">
+
+        <div className="row mb-3">
+            <h3 className="col">Login</h3>
         </div>
-        <div className="form-row">
-            <label>Password</label>
-            <input type="password" placeholder="Enter a password" className="custom-input-box"
-            onChange={(e) => setLogin(login.setPassword(e.target.value))} />
+
+        <div className="form-floating mb-3" >
+            <input 
+                type="email"
+                id="email" 
+                placeholder="Enter an email" 
+                className="form-control bg-secondary text-primary"
+                onChange={(e) => setLogin(login.setEmail(e.target.value))}
+            />
+            <label htmlFor="email">Email</label>
         </div>
-        <div className="align-self-end">
-            <PrimaryButton onClick={handleLogin}>Login</PrimaryButton>
+
+        <div className="form-floating mb-3" >
+            <input 
+                type="password"
+                id="password" 
+                placeholder="Enter a password" 
+                className="form-control bg-secondary text-primary"
+                onChange={(e) => setLogin(login.setPassword(e.target.value))}
+            />
+            <label htmlFor="password">Password</label>
         </div>
+
+        <div className="row g-0">
+            <button type="button" className="col-md-4 btn btn-primary btn-lg" onClick={handleLogin}>
+                Login
+            </button>
+        </div>
+
     </div>
     );
 };

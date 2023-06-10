@@ -1,5 +1,4 @@
 import React from "react";
-import "./Layout.css";
 import { Outlet, useLoaderData, useNavigation } from "react-router-dom";
 import { Navigation, Loader, Alert } from "../components";
 import { useDispatch } from "react-redux";
@@ -24,7 +23,7 @@ const Layout = () => {
     return (
         <>
             <Navigation />
-            <div className="main-layout">
+            <div className="bg-primary py-3">
                 <Outlet />
             </div>
             { alert.visible ? <Alert /> : null}

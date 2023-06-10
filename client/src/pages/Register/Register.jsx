@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { registerUser } from "../../api/users";
 import { RegisterData } from "./utils/RegisterData";
-import { PrimaryButton } from "../../components";
 import { useDispatch } from "react-redux";
 import { show } from "../../features/alert";
 
@@ -24,35 +23,62 @@ const Register = () => {
     }
     
     return (
-    <div className="form">
-        <span>Registration</span>
-        <div className="form-row">
-            <label>Username</label>
-            <input type="text" placeholder="Enter a username" className="custom-input-box"
-            onChange={(e) => setRegister(register.setUsername(e.target.value))} />
+    <div className="container">
+        
+        <div className="row mb-3">
+            <h3 className="col">Registration</h3>
+        </div>
+        
+        <div className="form-floating mb-3" >
+            <input 
+                type="text"
+                id="username" 
+                placeholder="Enter a username" 
+                className="form-control bg-secondary text-primary"
+                onChange={(e) => setRegister(register.setUsername(e.target.value))} 
+            />
+            <label htmlFor="username">Username</label>
         </div>
 
-        <div className="form-row">
-            <label>Email</label>
-            <input type="email" placeholder="Enter an email" className="custom-input-box"
-            onChange={(e) => setRegister(register.setEmail(e.target.value))} />
+        <div className="form-floating mb-3" >
+            <input 
+                type="email"
+                id="email" 
+                placeholder="Enter an email" 
+                className="form-control bg-secondary text-primary"
+                onChange={(e) => setRegister(register.setEmail(e.target.value))}
+            />
+            <label htmlFor="email">Email</label>
         </div>
 
-        <div className="form-row">
-            <label>Password</label>
-            <input type="password" placeholder="Create a password" className="custom-input-box"
-            onChange={(e) => setRegister(register.setPassword(e.target.value))} />
+        <div className="form-floating mb-3" >
+            <input 
+                type="password"
+                id="password" 
+                placeholder="Create a password" 
+                className="form-control bg-secondary text-primary"
+                onChange={(e) => setRegister(register.setPassword(e.target.value))}
+            />
+            <label htmlFor="password">Password</label>
         </div>
 
-        <div className="form-row">
-            <label>Retype password</label>
-            <input type="password" placeholder="Retype a password" className="custom-input-box"
-            onChange={(e) => setRegister(register.setRetypePassword(e.target.value))} />
+        <div className="form-floating mb-3" >
+            <input 
+                type="password"
+                id="password-retype" 
+                placeholder="Retype a password" 
+                className="form-control bg-secondary text-primary"
+                onChange={(e) => setRegister(register.setRetypePassword(e.target.value))}
+            />
+            <label htmlFor="password-retype">Retype a password</label>
         </div>
 
-        <div className="align-self-end">
-            <PrimaryButton onClick={handleRegister}>Register</PrimaryButton>
+        <div className="row g-0">
+            <button type="button" className="col-md-4 btn btn-primary btn-lg" onClick={handleRegister}>
+                Register
+            </button>
         </div>
+
     </div>
     );
 }
