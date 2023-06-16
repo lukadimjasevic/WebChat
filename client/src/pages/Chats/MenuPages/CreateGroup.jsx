@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useUser } from "../../../store/hooks";
 import { Group } from "./utils/Group";
-import { createGroup } from "./utils/post";
+import { createGroup } from "../../../api/groups";
 import { useDispatch } from "react-redux";
 import { show } from "../../../features/alert";
 import { useOutletContext } from "react-router-dom";

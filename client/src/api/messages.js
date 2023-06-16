@@ -1,30 +1,14 @@
-import HOST from "../data/host";
+import { request } from "./default";
 
 
 export const sendMessage = async(data) => {
 	const { groupId, message } = data;
-	const bodyData = { message };
-
-	const res = await fetch(HOST + `/messages/${groupId}`, {
-		headers: {
-			"Content-type": "application/json",
-		},
-		method: "POST",
-		credentials: "include",
-		body: JSON.stringify(bodyData),
-	});
-
-	return await res.json();
+	const res = await request(`/messages/${groupId}`, "POST", JSON.stringify({ message }));
+	return res;
 }
 
-export const loadMessages = async(groupId) => {
-	const res = await fetch(HOST + `/messages/${groupId}`, {
-		headers: {
-			"Content-type": "application/json",
-		},
-		method: "GET",
-		credentials: "include"
-	});
 
-	return await res.json();
+export const loadMessages = async(groupId) => {
+	const res = await request(`/messages/${groupId}`, "GET");
+	return res;
 }

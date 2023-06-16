@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "./MenuPages.css";
 import { AiOutlineUser } from "react-icons/ai";
 import { Profile } from "./utils/Profile";
-import { updateProfile } from "./utils/put";
+import { updateProfile } from "../../../api/users";
 import { useLoaderData } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { show } from "../../../features/alert";

@@ -1,27 +1,27 @@
-import HOST from "../data/host";
+import { request } from "./default";
 
 
 export const getGroup = async(groupId) => {
-	const res = await fetch(HOST + `/groups/${groupId}`, {
-		headers: {
-			"Content-type": "application/json",
-		},
-		method: "GET",
-		credentials: "include"
-	});
-
-	return await res.json();
+	const res = await request(`/groups/${groupId}`, "GET");
+	return res;
 }
 
 
 export const getUserGroups = async() => {
-	const res = await fetch(HOST + "/groups", {
-		headers: {
-			"Content-type": "application/json",
-		},
-		method: "GET",
-		credentials: "include"
-	});
+	const res = await request(`/groups`, "GET");
+	return res;
+}
 
-	return await res.json();
+
+export const createGroup = async(data) => {
+	const { name } = data;
+	const res = await request("/groups", "POST", JSON.stringify({ name }))
+	return res;
+}
+
+
+export const joinGroup = async(data) => {
+	const { code } = data;
+	const res = await request("/groups/join", "POST", JSON.stringify({ groupCode: code }));
+	return res;
 }

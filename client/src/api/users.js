@@ -1,42 +1,51 @@
-import HOST from "../data/host";
+import { request } from "./default";
+import HOST from "./host";
 
 
 export const registerUser = async(data) => {
-	const result = await fetch(HOST + "/users/register", {
-		headers: {
-			"Content-Type": "application/json",
-		},
-		method: "POST",
-		credentials: "include",
-		body: JSON.stringify(data)
-	});
-
-	return await result.json();
+	const res = await request("/users/register", "POST", JSON.stringify(data));
+	return res;
 }
 
 
 export const loginUser = async(data) => {
-	const result = await fetch(HOST + "/users/login", {
-		headers: {
-			"Content-Type": "application/json",
-		},
-		method: "POST",
-		credentials: "include",
-		body: JSON.stringify(data)
-	});
+	const res = await request("/users/login", "POST", JSON.stringify(data));
+	return res;
+}
 
-	return await result.json();
+export const logoutUser = async() => {
+	const res = await request("/users/logout", "POST");
+	return res;
 }
 
 
 export const getUser = async() => {
-	const res = await fetch(HOST + "/users", {
-		headers: {
-			"Content-type": "application/json",
-		},
-		method: "GET",
-		credentials: "include"
+	const res = await request("/users", "GET");
+	return res;
+}
+
+
+export const updateProfile = async(data) => {
+	const { name, bio, picture } = data;
+	
+	const formData = new FormData();
+	formData.append("name", name);
+	formData.append("bio", bio);
+
+	// If the picture has changed
+	if (picture.name) formData.append("picture", picture);
+
+	const res = await fetch(HOST + "/users/profile", {
+		method: "PUT",
+		credentials: "include",
+		body: formData,
 	});
 
-	return await res.json();
+	return res.json();
+}
+
+
+export const updateAccount = async(data) => {
+	const res = await request("/users/account", "PUT", JSON.stringify(data));
+	return res;
 }

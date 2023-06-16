@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./MenuPages.css";
 import { AccountData } from "./utils/Account";
-import { updateAccount } from "./utils/put";
+import { updateAccount } from "../../../api/users";
 import { useDispatch } from "react-redux";
 import { useUser } from "../../../store/hooks";
 import { updateUsername } from "../../../features/user";
@@ -23,7 +23,6 @@ const Account = () => {
 
 		if (res.status === "ok") {
 			dispatch(updateUsername(res.data));
-			usernameRef.current.value = "";
 		}
 
 		dispatch(show(res));

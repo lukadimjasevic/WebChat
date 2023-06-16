@@ -1,7 +1,7 @@
 import React from "react";
 import "./Dashboard.css";
 import { Sidebar } from "../../components";
-import { MdPerson, MdSettings, MdPalette, MdNotifications } from "react-icons/md";
+import { MdPerson, MdSettings, MdPalette, MdNotifications, MdLogout } from "react-icons/md";
 import { Outlet } from "react-router-dom";
 
 const Dashboard = () => {
@@ -14,6 +14,12 @@ const Dashboard = () => {
                 { Icon: MdSettings, name: "Account", path: "/dashboard/account" },
                 { Icon: MdPalette, name: "Appearance", path: "/dashboard/appearance" },
                 { Icon: MdNotifications, name: "Notifications", path: "/dashboard/notifications" },
+            ]
+        },
+        {
+            category: "Account",
+            items: [
+                { Icon: MdLogout, name: "Logout", path: "/dashboard/logout", class: "text-danger" }
             ]
         }
     ];
