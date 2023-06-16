@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { LoginData } from "./utils/LoginData";
 import { loginUser } from "../../api/users";
+import { useDispatch } from "react-redux";
+import { show } from "../../features/alert";
 
 const Login = () => {
 
+    const dispatch = useDispatch();
     const [login, setLogin] = useState(new LoginData());
 
     const handleLogin = async() => {

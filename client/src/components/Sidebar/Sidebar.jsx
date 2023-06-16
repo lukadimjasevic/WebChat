@@ -54,9 +54,14 @@ const Sidebar = ({ links }) => {
 					{items.map((item, index) => (
                         <Link to={item.path}
                             key={index} 
-                            className={item.name === selectedItem 
-                                ? "dashboard-menu-item dashboard-menu-item-selected" 
-                                : "dashboard-menu-item"} 
+                            className={`
+								${ item.name === selectedItem 
+                                	? "dashboard-menu-item dashboard-menu-item-selected" 
+                                	: "dashboard-menu-item"
+								} ${ item.class
+									? item.class
+									: ""
+								}`} 
                             onClick={() => setSelectedItem(item.name)} 
                         >
                             {item.Icon ? <item.Icon size={24} /> : null }

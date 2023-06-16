@@ -8,7 +8,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import NoPage from "./pages/NoPage";
 import Dashboard from "./pages/Dashboard";
-import { MyProfile, Account, Appearance, Notifications } from "./pages/Dashboard/MenuPages";
+import { MyProfile, Account, Appearance, Notifications, Logout } from "./pages/Dashboard/MenuPages";
 import Chats from "./pages/Chats";
 import { JoinGroup, CreateGroup, Chat } from "./pages/Chats/MenuPages";
 import { getUser } from "./api/users";
@@ -31,6 +31,7 @@ const App = () => {
                         <Route path="/dashboard/account" element={<Account />} />
                         <Route path="/dashboard/appearance" element={<Appearance />} />
                         <Route path="/dashboard/notifications" element={<Notifications />} />
+                        <Route path="/dashboard/logout" element={<Logout />} />
                     </Route>
                     <Route path="/chats" element={<Chats />} loader={getUserGroups}>
                         <Route path="/chats/join" element={<JoinGroup />} />

@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
-import { Input, PrimaryButton } from "../../../components";
 import { Group } from "./utils/Group";
-import { joinGroup } from "./utils/post";
+import { joinGroup } from "../../../api/groups";
 import { useDispatch } from "react-redux";
 import { show } from "../../../features/alert";
 import { useOutletContext } from "react-router-dom";
