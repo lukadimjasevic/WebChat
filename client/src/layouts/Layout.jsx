@@ -23,7 +23,7 @@ const Layout = () => {
     return (
         <>
             <Navbar />
-            <div className="bg-custom-primary py-3">
+            <div className="container-fluid bg-custom-primary py-3" >
                 <Outlet />
             </div>
             { alert.visible ? <Alert /> : null}
@@ -32,3 +32,4 @@ const Layout = () => {
 };
 
 export default Layout;
+//style={{ height: "calc(100vh - 4rem)" }}

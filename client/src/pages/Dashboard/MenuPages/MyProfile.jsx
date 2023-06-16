@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./MenuPages.css";
 import { AiOutlineUser } from "react-icons/ai";
-import { Input, PrimaryButton } from "../../../components";
 import { Profile } from "./utils/Profile";
 import { updateProfile } from "./utils/put";
 import { useLoaderData } from "react-router-dom";
@@ -23,7 +22,6 @@ const MyProfile = () => {
 	useEffect(() => {
 		nameRef.current.value = name;
 		bioRef.current.value = bio;
-
 	}, []);
 
 	const handleOnChangePicture = () => {
@@ -45,42 +43,62 @@ const MyProfile = () => {
 
     return (
 	<>
-		<span>My profile</span>
-		<hr />
-		<div className="row flex-row justify-content-between align-items-start fs-14">
-			<div className="col-md-8">
-				<Input 
-					placeholder="Your name" 
-					label="Name" 
-					onChange={(e) => setProfile(profile.setName(e.target.value))}
-					reference={nameRef}
-					className="mb-3"
-				/>
-				<Input 
-					textarea={true}
-					placeholder="Give yourself a word..."
-					label="Bio"
-					onChange={(e) => setProfile(profile.setBio(e.target.value))}
-					reference={bioRef}
-				/>
+		<div className="row g-0 row-cols-1 gap-3">
+			<span className="col">My Profile</span>
+			<hr className="col" />
+		</div>
+		<div className="row g-0">
+			<div className="bd-callout bd-callout-info">
+				<span>You can change your Profile settings, such as name, bio, profile image, etc...</span>
 			</div>
-			<div className="col-md-4 d-flex flex-column">
-				<input type="file" ref={pictureRef} style={{display: "none"}} onChange={handleOnChangePicture}/>
-				<span className="mb-2">Profile picture</span>
-				<button type="button" className="mb-3" onClick={() => pictureRef.current.click()}>
+		</div>
+		<div className="row g-0">
+			<div className="col-md-8">
+				<div className="row g-0 form-floating my-3">
+					<input 
+						type="text"
+						id="name"
+						placeholder="Your name"
+						className="col form-control bg-custom-primary text-primary border-custom-primary"
+						onChange={(e) => setProfile(profile.setName(e.target.value))}
+						ref={nameRef}
+					/>
+					<label htmlFor="name" className="col">Your name</label>
+				</div>
+				<div className="row g-0 form-floating my-3">
+					<textarea 
+						id="bio" 
+						placeholder="Give yourself a word..."
+						className="col form-control bg-custom-primary text-primary border-custom-primary"
+						onChange={(e) => setProfile(profile.setBio(e.target.value))}
+						ref={bioRef}>
+					</textarea>
+					<label htmlFor="bio" className="col">Bio</label>
+				</div>
+			</div>
+			<div className="col-md-4 d-flex justify-content-center align-items-center">
+				<input 
+					type="file" 
+					ref={pictureRef} 
+					style={{display: "none"}}
+					className="row g-0"
+					onChange={handleOnChangePicture}
+				/>
+				<button type="button" className="row g-0" onClick={() => pictureRef.current.click()}>
 					{!previewPicture
-						? <AiOutlineUser className="upload-profile-picture" />
+						? <AiOutlineUser className="col upload-profile-picture" />
 						: <img 
 							src={previewPicture} 
-							className="upload-profile-picture"
+							className="col upload-profile-picture"
 						/>
 					}
 				</button>
 			</div>
 		</div>
-
-		<div className="d-flex justify-content-end mt-2">
-			<PrimaryButton onClick={handleOnUpdateProfile}>Update</PrimaryButton>
+		<div className="row g-0 mt-3">
+			<button type="button" className="col-md-3 btn btn-primary btn-lg" onClick={handleOnUpdateProfile}>
+				Update
+			</button>
 		</div>
 	</>
 	);

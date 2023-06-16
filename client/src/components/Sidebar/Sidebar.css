@@ -1,0 +1,17 @@
+.sidebar {
+	width: 30rem;
+}
+
+.sidebar.closed {
+	height: 3.5rem;
+}
+
+.sidebar.closed .sidebar-content {
+	display: none
+}
+
+@media screen and (max-width: 767px) {
+	.sidebar {
+		width: 100%;
+	}
+}

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Input, PrimaryButton, Tip } from "../../../components";
+import { Input, PrimaryButton } from "../../../components";
 import { Group } from "./utils/Group";
 import { joinGroup } from "./utils/post";
 import { useDispatch } from "react-redux";
@@ -14,7 +14,7 @@ const JoinGroup = () => {
 
 	const revalidator = useOutletContext();
 
-    const handleOnJoinGroup = async() => {
+    const handleJoinGroup = async() => {
         const res = await joinGroup(group);
 
         if (res.status === "ok") {
@@ -29,25 +29,33 @@ const JoinGroup = () => {
     }
 
     return (
-    <div className="container p-3 chats-menu-pages">
-        <div className="row row-cols-1 g-0 gap-2 text-highlight">
+    <div className="p-3">
+        <div className="row row-cols-1 g-0 gap-3">
 			<span className="col">Join a new group</span>
 			<hr className="col" />
 		</div>
         <div className="row g-0 my-3">
-            <Tip className="col">You can join a new chat group here and start chatting.</Tip>
+			<div className="col bd-callout bd-callout-info">
+				<span>You can join a new chat group here and start chatting.</span>
+			</div>
 		</div>
         <div className="row g-0 my-3">
-            <Input 
-				label="Group code"
-				placeholder="Enter a group code, eg. u1lf4wshx9"
-				onChange={(e) => setGroup(group.setCode(e.target.value))}
-				className="col-md-8"
-                reference={groupCodeRef}
-			/>
-        </div>
-        <div className="row g-0 justify-content-end my-3">
-			<PrimaryButton onClick={handleOnJoinGroup} className="col-md-3">Join</PrimaryButton>
+			<div className="col row g-0 input-group mb-3">
+				<div className="col-9 col-sm-10 form-floating">
+					<input 
+						type="text" 
+						id="group-join"
+						className="form-control bg-custom-primary text-primary border-custom-primary" 
+						placeholder="Enter a group code, eg. u1lf4wshx9" 
+						onChange={(e) => setGroup(group.setCode(e.target.value))}
+						ref={groupCodeRef}
+					/>
+					<label htmlFor="group-join">Group code</label>
+				</div>
+				<button type="button" className="col-3 col-sm-2 btn btn-primary" onClick={handleJoinGroup}>
+					Join
+				</button>
+			</div>
 		</div>
     </div>
     );

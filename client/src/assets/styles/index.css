@@ -104,3 +104,25 @@ button {
 .bg-custom-secondary {
 	background-color: var(--background-secondary) !important;
 }
+
+.bg-custom-highlight-primary {
+	background-color: var(--highlight-primary);
+}
+
+.border-custom-primary {
+	border-color: var(--background-primary) !important;
+}
+
+.border-custom-secondary {
+	border-color: var(--background-secondary) !important;
+}
+
+.bd-callout {
+	padding: 10px;
+}
+
+.bd-callout-info {
+	border-left: 5px solid var(--highlight-secondary);
+	color: var(--highlight-secondary);
+	background-color: #032830;
+}

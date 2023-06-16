@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { Input, PrimaryButton, Tip } from "../../../components";
 import { useUser } from "../../../store/hooks";
 import { Group } from "./utils/Group";
 import { createGroup } from "./utils/post";
@@ -16,7 +15,7 @@ const CreateGroup = () => {
 
 	const revalidator = useOutletContext();
 
-	const handleOnCreateGroup = async() => {
+	const handleCreateGroup = async() => {
 		const res = await createGroup(group);
 
 		if (res.status === "ok") {
@@ -31,35 +30,48 @@ const CreateGroup = () => {
 	}
 
     return (
-	<div className="container p-3 chats-menu-pages">
-		<div className="row row-cols-1 g-0 gap-2 text-highlight">
+	<div className="p-3">
+		<div className="row row-cols-1 g-0 gap-3">
 			<span className="col">Create a new group</span>
 			<hr className="col" />
 		</div>
 		<div className="row g-0 my-3">
-			<Tip className="col">You can here create a new chat group.</Tip>
+			<div className="col bd-callout bd-callout-info">
+				<span>You can here create a new chat group.</span>
+			</div>
+		</div>
+		<div className="p-3 bg-custom-primary rounded">
+			<table className="table table-sm table-borderless caption-top text-primary">
+				<caption>Group details</caption>
+				<thead>
+					<tr className="text-highlight">
+						<th scope="col">Admin</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{user.email} (You)</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 		<div className="row g-0 my-3">
-			<Input 
-				label="Group name"
-				placeholder="Enter a group name..."
-				onChange={(e) => setGroup(group.setName(e.target.value))}
-				className="col-md-8"
-				reference={groupNameRef}
-			/>
-		</div>
-		<div className="row row-cols-1 g-0 gap-2 text-highlight">
-			<span className="col">Group details</span>
-			<hr className="col" />
-		</div>
-		<div className="row row-cols-2 g-0 fs-14">
-			<span className="col"><b>Admin</b></span>
-			<span className="col">{user.email} (You)</span>
-			<span className="col"></span>
-			<span className="col text-secondary">{user.username}</span>
-		</div>
-		<div className="row g-0 justify-content-end my-3">
-			<PrimaryButton onClick={handleOnCreateGroup} className="col-md-3">Create</PrimaryButton>
+			<div className="col row g-0 input-group mb-3">
+				<div className="col-9 col-sm-10 form-floating">
+					<input 
+						type="text" 
+						id="group-create"
+						className="form-control bg-custom-primary text-primary border-custom-primary" 
+						placeholder="Enter a group name..." 
+						onChange={(e) => setGroup(group.setName(e.target.value))}
+						ref={groupNameRef}
+					/>
+					<label htmlFor="group-create">Group name</label>
+				</div>
+				<button type="button" className="col-3 col-sm-2 btn btn-primary" onClick={handleCreateGroup}>
+					Create
+				</button>
+			</div>
 		</div>
 	</div>
 	);

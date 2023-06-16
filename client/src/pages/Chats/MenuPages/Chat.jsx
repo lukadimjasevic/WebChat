@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { useUser } from "../../../store/hooks";
 import { useCookies } from "react-cookie";
-import { PrimaryButton } from "../../../components";
+import { BsFillSendFill } from "react-icons/bs";
 import { socket } from "../../../socket";
 import { Message } from "./utils/Message";
 import { loadMessages, sendMessage } from "../../../api/messages";
@@ -49,7 +49,7 @@ const Chat = () => {
 		return () => socket.off("receive_message");
 	}, [socket]);
 
-	const handleOnSendMessage = async() => {
+	const handleSendMessage = async() => {
 		const res = await sendMessage(message);
 
 		if (res.status === "ok") {
@@ -66,11 +66,11 @@ const Chat = () => {
 	}
 
     return (
-	<div>
-		<div className="row g-0 align-items-center fs-18 px-2" style={chatHeadingStyle}>
+	<>
+		<div className="row g-0 align-items-center px-3 rounded-top chat-header">
 			<span className="col">{group.name}</span>
 		</div>
-		<div className="d-flex flex-column gap-3 p-3" style={chatWhitespaceStyle}>
+		<div className="d-flex flex-column gap-3 p-3 chat">
 			{messagesReceived.map(({ message, username, createdAt }, index) => (
 				<div key={index} className={`row g-0 w-100 ${username === user.username ? "msg-me" : "msg-they"}`}>
 					<div className="row row-cols-1 g-0 p-3 align-items-center message">
@@ -83,18 +83,19 @@ const Chat = () => {
 				</div>
 			))}
 		</div>
-		<div className="row g-0 justify-content-center gap-3" style={chatEnterMessageStyle}>
+		<div className="row g-0 input-group px-3 my-3 chat-footer">
 			<input 
 				type="text" 
-				className="col-md-4 custom-input-input" 
+				className="col-9 col-sm-10 form-control bg-custom-primary text-primary border-custom-primary" 
+				placeholder="Message"
 				onChange={(e) => setMessage(message.setMessage(e.target.value))}
 				ref={messageRef}
 			/>
-			<PrimaryButton onClick={handleOnSendMessage} className="col-md-2 h-100">
-				Send
-			</PrimaryButton>
+			<button type="button" className="col-3 col-sm-2 btn btn-primary" onClick={handleSendMessage}>
+				<BsFillSendFill size={20} />
+			</button>
 		</div>
-	</div>
+	</>
     );
 };
 
@@ -104,10 +105,8 @@ const chatHeadingStyle = {
 }
 
 const chatWhitespaceStyle = {
-	minHeight: "20rem",
 	height: "calc(100vh - 12rem)",
-	maxHeight: "48rem",
-	backgroundColor: "var(--background-primary)",
+	maxHeight: "calc(100vh - 12rem)",
 	overflowY: "auto",
 }
 

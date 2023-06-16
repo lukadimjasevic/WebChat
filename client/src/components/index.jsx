@@ -4,6 +4,7 @@ import Alert from "./Alert";
 import Input from "./Input";
 import Loader from "./Loader";
 import Tip from "./Tip";
+import Sidebar from "./Sidebar";
 
 
 export {
@@ -13,4 +14,5 @@ export {
 	Input,
 	Loader,
 	Tip,
+	Sidebar
 };
