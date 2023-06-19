@@ -1,0 +1,53 @@
+.chat-header {
+	height: 4rem;
+	background-color: #081318 !important;
+}
+
+.chat-body {
+	height: calc(100vh - 15rem);
+	max-height: calc(100vh - 15rem);
+	overflow-y: auto;
+}
+
+.chat-footer {
+	height: 3.5rem;
+}
+
+.msg-me, .msg-they {
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+	gap: 20px;
+}
+
+.msg-me { 
+	flex-direction: row-reverse; 
+}
+.msg-me > div {
+	background-color: var(--highlight-secondary);
+}
+.msg-me > div > div {
+	display: flex;
+	flex-direction: row-reverse;
+}
+.msg-me > div .msg-username {
+	text-align: right;
+}
+
+.msg-they > div {
+	background-color: var(--highlight-primary);
+}
+.msg-they > div .msg-time {
+	text-align: right;
+}
+
+.msg {
+	max-width: 75%;
+}
+
+.msg-profile-picture {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: 2px solid var(--text-primary);
+}

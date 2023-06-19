@@ -1,7 +1,7 @@
 * {
 	padding: 0;
 	margin: 0;
-	box-sizing: border-box;
+	box-sizing: border-box !important;
 	transition: all 0.25s;
 }
 
@@ -15,13 +15,18 @@
 	--highlight-primary: #202D34;
 	--highlight-secondary: #0070DA;
 
-	--button-hover: #026acb;
+	--button-hover: #202D34;
+
+	--toastify-toast-width: 450px;
+}
+
+html {
+	background-color: var(--background-primary);
 }
 
 body {
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	color: var(--text-primary);
-	background-color: var(--background-secondary);
 }
 
 button {
@@ -29,17 +34,63 @@ button {
 	border: none;
 	background: none;
 	cursor: pointer;
-	color: var(--text-primary);
+	color: var(--text-primary) !important;
 }
 
-.custom-input-box {
-	outline: none;
-	border: none;
-	background: none;
-	width: 100%;
-	height: 3rem;
-	border-radius: 5px;
-	padding: 1rem;
+.fs-14 {
+	font-size: 14px;
+}
+
+.fs-16 {
+	font-size: 16px;
+}
+
+.fs-18 {
+	font-size: 18px;
+}
+
+.text-primary {
+	color: var(--text-primary) !important;
+}
+
+.text-secondary {
 	color: var(--text-secondary);
+}
+
+.text-highlight {
+	color: var(--highlight-secondary);
+}
+
+.bg-custom-primary {
+	background-color: var(--background-primary) !important;
+}
+
+.bg-custom-secondary {
+	background-color: var(--background-secondary) !important;
+}
+
+.bg-custom-highlight-primary {
 	background-color: var(--highlight-primary);
+}
+
+.border-custom-primary {
+	border-color: var(--background-primary) !important;
+}
+
+.border-custom-secondary {
+	border-color: var(--background-secondary) !important;
+}
+
+.bd-callout {
+	padding: 10px;
+}
+
+.bd-callout-info {
+	border-left: 5px solid var(--highlight-secondary);
+	color: var(--highlight-secondary);
+	background-color: #032830;
+}
+
+.btn-hover-primary:hover {
+	background-color: var(--button-hover);
 }

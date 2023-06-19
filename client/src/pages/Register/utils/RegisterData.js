@@ -1,6 +1,6 @@
 export class RegisterData {
 
-	constructor(username="", email="", password="", retypePassword="") {
+	constructor(username=null, email=null, password=null, retypePassword=null) {
 		this.username = username;
 		this.email = email;
 		this.password = password;

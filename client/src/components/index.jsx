@@ -1,12 +1,10 @@
-//import MessageContainer from "./MessageContainer";
-import Navigation from "./Navigation";
-import PrimaryButton from "./PrimaryButton";
-import Alert from "./Alert";
+import Navbar from "./Navbar";
+import Loader from "./Loader";
+import Sidebar from "./Sidebar";
 
 
 export {
-	/* MessageContainer, */
-	Navigation,
-	PrimaryButton,
-	Alert,
+	Navbar,
+	Loader,
+	Sidebar
 };

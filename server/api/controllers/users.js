@@ -4,21 +4,12 @@ const dbUtils = require("../database");
 const { Op } = require("sequelize");
 const bcrypt = require("bcrypt");
 const error = require("../../errors");
-
-const cookieExpires = 7 * 24 * 3600000; // 7 days
+const fs = require("fs");
+const { COOKIE_EXPIRE_TIME, COOKIE_DOMAIN } = require("../../utils/constants/cookie");
 
 
 exports.register = async(req, res, next) => {
-	const { username, password, email } = req.body;
-
-	if (!username || username.length < 3 || username.length > 24) 
-		return next(new error.HttpBadRequest("The username must have between 3 and 24 characters"));
-	
-	if (!password || password.length < 3 || password.length > 16) 
-		return next(new error.HttpBadRequest("The password must have between 3 and 16 characters"));
-
-	if (!email || email.length < 3 || email.length > 320) 
-		return next(new error.HttpBadRequest("The email must have between 3 and 320 characters"));
+	const { username, password, email } = res.locals;
 
 	const checkUser = await db.User.findOne(
 		{ where: { 
@@ -43,11 +34,13 @@ exports.register = async(req, res, next) => {
 		const user = await dbUtils.createUser(username, hash, email, token, tokenCreated);
 
 		res.cookie("access_token", token, {
-			expires: new Date(Date.now() + cookieExpires)
+			expires: new Date(Date.now() + COOKIE_EXPIRE_TIME),
+			domain: COOKIE_DOMAIN,
+			sameSite: "None"
 		});
 
 		return res.json({
-			status: "ok",
+			status: "success",
 			message: "Account successfully created",
 			user: {
 				username: user.username,
@@ -59,13 +52,7 @@ exports.register = async(req, res, next) => {
 
 
 exports.login = async(req, res, next) => {
-	const { email, password } = req.body;
-
-	if (!password || password.length < 3 || password.length > 16) 
-		return next(new error.HttpBadRequest("The password must have between 3 and 16 characters"));
-
-	if (!email || email.length < 3 || email.length > 320) 
-		return next(new error.HttpBadRequest("The email must have between 3 and 320 characters"));
+	const { email, password } = res.locals;
 
 	const user = await db.User.findOne({ where: { email }});
 
@@ -80,19 +67,19 @@ exports.login = async(req, res, next) => {
 			
 		if (user.token !== null) {
 			const tokenCreated = new Date(user.token_created);
-			const tokenExpires = new Date(tokenCreated.getTime() + cookieExpires);
+			const tokenExpires = new Date(tokenCreated.getTime() + COOKIE_EXPIRE_TIME);
 			
 			if (tokenExpires > Date.now()) {
 				// Not Expired
 				
 				res.cookie("access_token", user.token, {
-					expires: new Date(Date.now() + cookieExpires),
-					domain: "localhost",
+					expires: new Date(Date.now() + COOKIE_EXPIRE_TIME),
+					domain: COOKIE_DOMAIN,
 					sameSite: "None"
 				});
 
 				return res.json({
-					status: "ok",
+					status: "success",
 					message: "Successfully logged in",
 				});
 			}
@@ -103,13 +90,13 @@ exports.login = async(req, res, next) => {
 		await dbUtils.updateUserToken(user.email, token, tokenCreated);
 
 		res.cookie("access_token", token, {
-			expires: new Date(Date.now() + cookieExpires),
-			domain: "localhost",
+			expires: new Date(Date.now() + COOKIE_EXPIRE_TIME),
+			domain: COOKIE_DOMAIN,
 			sameSite: "None"
 		});
 
 		return res.json({
-			status: "ok",
+			status: "success",
 			message: "Successfully logged in",
 		});
 	});
@@ -117,15 +104,69 @@ exports.login = async(req, res, next) => {
 
 
 exports.logout = async(req, res, next) => {
-	const token = res.locals.token;
+	const { user } = res.locals;
 
-	const user = await dbUtils.getUser(token);
 	user.update({ token: null, token_created: null });
 
 	res.clearCookie("access_token");
 
 	return res.json({
-		status: "ok",
+		status: "success",
 		message: "Successfully logged out",
-	})
+	});
+}
+
+
+exports.getUser = async(req, res, next) => {
+	const { username, email, name, bio, picture } = res.locals.user;
+
+	const userData = { username, email, name, bio, picture };
+
+	return res.json({
+		status: "success",
+		message: "Successfully fetched user data",
+		data: userData,
+	});
+}
+
+
+exports.updateUserProfile = async(req, res, next) => {
+	const { user, name, bio } = res.locals;
+
+	if (req.file) {
+		fs.readFile(req.file.path, (err, data) => {
+			if (err) {
+				console.error(err);
+				return next(new error.InternalServerError("An error has occurred while trying to read the profile picture"));
+			}
+			
+			const base64String = data.toString("base64");
+			user.update({ picture: base64String });
+		});
+	}
+
+	user.update({ name, bio });
+	
+	return res.json({
+		status: "success",
+		message: "Successfully updated profile settings",
+	});
+}
+
+
+exports.updateUserAccount = async(req, res, next) => {
+	const { user, username } = res.locals;
+	
+	const checkUser = await db.User.findOne({ where: { username }});
+
+	if (checkUser) 
+		return next(new error.HttpConflict("The username is already taken"));
+
+	user.update({ username });
+
+	return res.json({
+		status: "success",
+		message: "Successfully updated account settings",
+		data: { username }
+	});
 }

@@ -15,13 +15,25 @@ module.exports = {
             unique: true,
         },
         password: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(64),
             allowNull: false,
         },
         email: {
             type: DataTypes.STRING(320),
             allowNull: false,
             unique: true,
+        },
+        name: {
+            type: DataTypes.STRING(16),
+            allowNull: true,
+        },
+        bio: {
+            type: DataTypes.STRING(255),
+            allowNull: true,
+        },
+        picture: {
+            type: DataTypes.TEXT,
+            allowNull: true,
         },
         token: {
             type: DataTypes.STRING(128),

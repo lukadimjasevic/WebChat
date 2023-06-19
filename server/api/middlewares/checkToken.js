@@ -1,4 +1,3 @@
-const db = require("../../models");
 const dbUtils = require("../database");
 const error = require("../../errors");
 
@@ -17,5 +16,6 @@ exports.checkToken = async(req, res, next) => {
 		return next(new error.HttpUnauthorized("Authorization failed"));
 
 	res.locals.token = accessToken;
+	res.locals.user = user;
 	next();
 }
