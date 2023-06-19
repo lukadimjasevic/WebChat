@@ -1,4 +1,3 @@
-const { HOST } = require("../../config/server.json");
 const { createToken } = require("../generateString");
 const db = require("../../models");
 const dbUtils = require("../database");
@@ -6,43 +5,11 @@ const { Op } = require("sequelize");
 const bcrypt = require("bcrypt");
 const error = require("../../errors");
 const fs = require("fs");
-const constants = require("../../utils/constants/data");
-
-const cookieExpires = 7 * 24 * 3600000; // 7 days
-
-
-const checkUsername = (username, next) => {
-	if (!username || username.length < constants.USER_USERNAME_MIN || username.length > constants.USER_USERNAME_MAX) 
-		return next(new error.HttpBadRequest(`The username must have between ${constants.USER_USERNAME_MIN} and ${constants.USER_USERNAME_MAX} characters`));
-}
-
-const checkPassword = (password, next) => {
-	if (!password || password.length < constants.USER_PASSWORD_MIN || password.length > constants.USER_PASSWORD_MAX) 
-		return next(new error.HttpBadRequest(`The password must have between ${constants.USER_PASSWORD_MIN} and ${constants.USER_PASSWORD_MAX} characters`));
-}
-
-const checkEmail = (email, next) => {
-	if (!email || email.length < constants.USER_EMAIL_MIN || email.length > constants.USER_EMAIL_MAX) 
-		return next(new error.HttpBadRequest(`The email must have between ${constants.USER_EMAIL_MIN} and ${constants.USER_EMAIL_MAX} characters`));
-}
-
-const checkName = (name, next) => {
-	if (name.length > constants.USER_NAME_MAX) 
-		return next(new error.HttpBadRequest(`The name can have a maximum of ${constants.USER_NAME_MAX} characters`));
-}
-
-const checkBio = (bio, next) => {
-	if (bio.length > constants.USER_BIO_MAX)
-		return next(new error.HttpBadRequest(`The bio can have a maximum of ${constants.USER_BIO_MAX} characters`));
-}
+const { COOKIE_EXPIRE_TIME, COOKIE_DOMAIN } = require("../../utils/constants/cookie");
 
 
 exports.register = async(req, res, next) => {
-	const { username, password, email } = req.body;
-
-	checkUsername(username, next);
-	checkPassword(password, next);
-	checkEmail(email, next);
+	const { username, password, email } = res.locals;
 
 	const checkUser = await db.User.findOne(
 		{ where: { 
@@ -67,8 +34,8 @@ exports.register = async(req, res, next) => {
 		const user = await dbUtils.createUser(username, hash, email, token, tokenCreated);
 
 		res.cookie("access_token", token, {
-			expires: new Date(Date.now() + cookieExpires),
-			domain: HOST,
+			expires: new Date(Date.now() + COOKIE_EXPIRE_TIME),
+			domain: COOKIE_DOMAIN,
 			sameSite: "None"
 		});
 
@@ -85,10 +52,7 @@ exports.register = async(req, res, next) => {
 
 
 exports.login = async(req, res, next) => {
-	const { email, password } = req.body;
-
-	checkPassword(password, next);
-	checkEmail(email, next);
+	const { email, password } = res.locals;
 
 	const user = await db.User.findOne({ where: { email }});
 
@@ -103,14 +67,14 @@ exports.login = async(req, res, next) => {
 			
 		if (user.token !== null) {
 			const tokenCreated = new Date(user.token_created);
-			const tokenExpires = new Date(tokenCreated.getTime() + cookieExpires);
+			const tokenExpires = new Date(tokenCreated.getTime() + COOKIE_EXPIRE_TIME);
 			
 			if (tokenExpires > Date.now()) {
 				// Not Expired
 				
 				res.cookie("access_token", user.token, {
-					expires: new Date(Date.now() + cookieExpires),
-					domain: HOST,
+					expires: new Date(Date.now() + COOKIE_EXPIRE_TIME),
+					domain: COOKIE_DOMAIN,
 					sameSite: "None"
 				});
 
@@ -126,8 +90,8 @@ exports.login = async(req, res, next) => {
 		await dbUtils.updateUserToken(user.email, token, tokenCreated);
 
 		res.cookie("access_token", token, {
-			expires: new Date(Date.now() + cookieExpires),
-			domain: HOST,
+			expires: new Date(Date.now() + COOKIE_EXPIRE_TIME),
+			domain: COOKIE_DOMAIN,
 			sameSite: "None"
 		});
 
@@ -167,11 +131,7 @@ exports.getUser = async(req, res, next) => {
 
 
 exports.updateUserProfile = async(req, res, next) => {
-	const { user } = res.locals;
-	const { name, bio } = req.body;
-
-	checkName(name, next);
-	checkBio(bio, next);
+	const { user, name, bio } = res.locals;
 
 	if (req.file) {
 		fs.readFile(req.file.path, (err, data) => {
@@ -195,11 +155,8 @@ exports.updateUserProfile = async(req, res, next) => {
 
 
 exports.updateUserAccount = async(req, res, next) => {
-	const { user } = res.locals;
-	const { username } = req.body;
-
-	checkUsername(username, next);
-
+	const { user, username } = res.locals;
+	
 	const checkUser = await db.User.findOne({ where: { username }});
 
 	if (checkUser) 

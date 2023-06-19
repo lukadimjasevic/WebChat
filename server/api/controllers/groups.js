@@ -3,20 +3,10 @@ const dbUtils = require("../database");
 const { Op } = require("sequelize");
 const { QueryTypes } = require("sequelize");
 const error = require("../../errors");
-const constants = require("../../utils/constants/data");
-
-
-const checkName = (name, next) => {
-	if (!name || name.length > constants.GROUP_NAME_MAX) 
-		return next(new error.HttpBadRequest(`The group name must have between 1 and ${constants.GROUP_NAME_MAX} characters`));
-}
 
 
 exports.createGroup = async(req, res, next) => {
-	const { name } = req.body;
-	const user = res.locals.user;
-
-	checkName(name, next);
+	const { user, name } = res.locals;
 
 	const adminId = user.user_id;
 	const group = await dbUtils.createGroup(name, adminId);

@@ -1,22 +1,10 @@
 const db = require("../../models");
-const { QueryTypes } = require("sequelize");
 const dbUtils = require("../database");
-const error = require("../../errors");
-const constants = require("../../utils/constants/data");
-
-
-const checkMessage = (message, next) => {
-	if (!message || message.length > constants.MESSAGE_MESSAGE_MAX) 
-		return next(new error.HttpBadRequest(`The message must have between 1 and ${constants.MESSAGE_MESSAGE_MAX} characters`));
-}
 
 
 exports.createMessage = async(req, res, next) => {
-	const { message } = req.body;
 	const { groupId } = req.params;
-	const { user } = res.locals;
-
-	checkMessage(message, next);
+	const { user, message } = res.locals;
 
 	const userId = user.user_id;
 	const newMessage = await dbUtils.createMessage(userId, groupId, message);

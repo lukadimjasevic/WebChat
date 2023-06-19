@@ -15,7 +15,7 @@ export const getUserGroups = async() => {
 
 export const createGroup = async(data) => {
 	const { name } = data;
-	const res = await request("/groups", "POST", JSON.stringify({ name }))
+	const res = await request("/groups/create", "POST", JSON.stringify({ name }));
 	return res;
 }
 
