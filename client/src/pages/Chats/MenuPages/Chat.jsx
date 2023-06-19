@@ -23,7 +23,7 @@ const Chat = () => {
 	const [{ access_token }] = useCookies(["access_token"]);
 	const messageRef = useRef();
 	const messagesEndRef = useRef();
-	const [message, setMessage] = useState(new Message(user.username, group.group_id, access_token));
+	const [message, setMessage] = useState(new Message(group.group_id, access_token));
 	const [messagesReceived, setMessagesReceived] = useState([]);
 
 

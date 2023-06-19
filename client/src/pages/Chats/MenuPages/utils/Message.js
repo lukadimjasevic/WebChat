@@ -1,14 +1,8 @@
 export class Message {
-	constructor(username=null, groupId=null, accessToken=null, message=null) {
-		this.username = username;
+	constructor(groupId=null, accessToken=null, message=null) {
 		this.groupId = groupId;
 		this.accessToken = accessToken;
 		this.message = message;
-	}
-
-	setUsername(value) {
-		this.username = value;
-		return this;
 	}
 
 	setGroup(value) {

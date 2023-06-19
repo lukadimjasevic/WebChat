@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
 	});
 
 	socket.on("receive_message", async(data) => {
-		const { username, groupId, accessToken, message } = data;
+		const { groupId, accessToken, message } = data;
 		let auth;
 
 		try { auth = await checkToken(accessToken); }
@@ -55,7 +55,8 @@ io.on("connection", (socket) => {
 
 		io.to(groupId).emit("receive_message", {
 			message,
-			username,
+			username: auth.user.username,
+			picture: auth.user.picture,
 			createdAt
 		});
 	});
