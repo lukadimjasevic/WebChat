@@ -3,6 +3,7 @@ import { useLoaderData } from "react-router-dom";
 import { useUser } from "../../../store/hooks";
 import { useCookies } from "react-cookie";
 import { BsFillSendFill } from "react-icons/bs";
+import { AiOutlineUser } from "react-icons/ai";
 import { socket } from "../../../socket";
 import { Message } from "./utils/Message";
 import { loadMessages, sendMessage } from "../../../api/messages";
@@ -70,19 +71,25 @@ const Chat = () => {
 		<div className="row g-0 align-items-center px-3 rounded-top chat-header">
 			<span className="col">{group.name}</span>
 		</div>
-		<div className="d-flex flex-column gap-3 p-3 chat">
-			{messagesReceived.map(({ message, username, createdAt }, index) => (
-				<div key={index} className={`row g-0 w-100 ${username === user.username ? "msg-me" : "msg-they"}`}>
-					<div className="row row-cols-1 g-0 p-3 align-items-center message">
-						<div className={`col row g-0 fs-14`}>
+
+		<div className="d-flex flex-column gap-3 p-3 chat-body">
+			{messagesReceived.map(({ message, username, picture, createdAt }, index) => (
+				<div key={index} className={`${username === user.username ? "msg-me" : "msg-they"}`}>
+					{picture 
+						? <img src={`data:image/png;base64,${picture}`} className="msg-profile-picture" />
+						: <AiOutlineUser className="msg-profile-picture"/>
+					}
+					<div className="row row-cols-1 g-0 p-3 align-items-center rounded msg">
+						<div className="col row g-0">
 							<span className="col msg-username">{username}</span>
 							<span className="col msg-time">{formatMessageTime(createdAt)}</span>		
 						</div>
-						<p className="col m-0 fs-16 msg">{message}</p>
+						<p className="col m-0">{message}</p>
 					</div>
 				</div>
 			))}
 		</div>
+
 		<div className="row g-0 input-group px-3 my-3 chat-footer">
 			<input 
 				type="text" 
@@ -98,21 +105,5 @@ const Chat = () => {
 	</>
     );
 };
-
-const chatHeadingStyle = {
-	height: "4rem",
-	backgroundColor: "var(--highlight-primary)",
-}
-
-const chatWhitespaceStyle = {
-	height: "calc(100vh - 12rem)",
-	maxHeight: "calc(100vh - 12rem)",
-	overflowY: "auto",
-}
-
-const chatEnterMessageStyle = {
-	height: "4rem",
-	backgroundColor: "var(--highlight-primary)",
-}
 
 export default Chat;

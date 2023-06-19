@@ -1,14 +1,9 @@
-.chats-main {
-	display: flex;
-	flex-direction: column;
-}
-
 .chat-header {
 	height: 4rem;
 	background-color: #081318 !important;
 }
 
-.chat {
+.chat-body {
 	height: calc(100vh - 15rem);
 	max-height: calc(100vh - 15rem);
 	overflow-y: auto;
@@ -18,39 +13,41 @@
 	height: 3.5rem;
 }
 
-.message {
-	width: 75% !important;
-	min-height: 4rem;
-	border-radius: 0.4vh;
+.msg-me, .msg-they {
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+	gap: 20px;
 }
 
-.msg-me {
-	justify-content: flex-end;
+.msg-me { 
+	flex-direction: row-reverse; 
 }
-
 .msg-me > div {
 	background-color: var(--highlight-secondary);
 }
-
 .msg-me > div > div {
 	display: flex;
 	flex-direction: row-reverse;
 }
-
-.msg-me > div .msg-username, .msg-me > div .msg {
+.msg-me > div .msg-username {
 	text-align: right;
 }
 
 .msg-they > div {
 	background-color: var(--highlight-primary);
 }
-
 .msg-they > div .msg-time {
 	text-align: right;
 }
 
-@media screen and (max-width: 767px) {
-	.chats-main {
-		flex-direction: column-reverse !important;
-	}
+.msg {
+	max-width: 75%;
+}
+
+.msg-profile-picture {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: 2px solid var(--text-primary);
 }

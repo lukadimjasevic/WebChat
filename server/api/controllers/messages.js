@@ -35,7 +35,7 @@ exports.getMessages = async(req, res, next) => {
 	const group_id = req.params.groupId;
 
 	const messageAttributes = ["user_id", "group_id", "message", "createdAt"];
-	const userAttributes = ["username"];
+	const userAttributes = ["username", "picture"];
 
 	const messages = await db.Message.findAll({
 		where: {
@@ -54,7 +54,8 @@ exports.getMessages = async(req, res, next) => {
 		const { User, ...rest } = message.toJSON(); // Destructure the fields
 		return {
 		  ...rest,
-		  username: User.username // Add the 'username' field from the 'User' model
+		  username: User.username, // Add the 'username' field from the 'User' model
+		  picture: User.picture
 		};
 	});
 

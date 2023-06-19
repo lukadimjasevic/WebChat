@@ -27,7 +27,7 @@ const Chats = () => {
     ];
 
     return (
-	<div className="flex-md-row gap-3 chats-main">
+	<div className="d-flex flex-column flex-md-row gap-3">
         <Sidebar links={sidebarLinks} />
         <div className="container-fluid g-0 bg-custom-secondary rounded">
             <Outlet context={revalidator} />
