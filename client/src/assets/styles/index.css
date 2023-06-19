@@ -15,7 +15,7 @@
 	--highlight-primary: #202D34;
 	--highlight-secondary: #0070DA;
 
-	--button-hover: #026acb;
+	--button-hover: #202D34;
 
 	--toastify-toast-width: 450px;
 }
@@ -34,45 +34,7 @@ button {
 	border: none;
 	background: none;
 	cursor: pointer;
-	color: var(--text-primary);
-}
-
-.custom-input-box {
-	outline: none;
-	border: none;
-	background: none;
-	width: 100%;
-	height: 3rem;
-	border-radius: 5px;
-	padding: 1rem;
-	color: var(--text-secondary);
-	background-color: var(--highlight-primary);
-}
-
-.btn-msg-send {
-	width: 3rem;
-	height: 3rem;
-	border-radius: 50%;
-	background-color: var(--highlight-secondary);
-}
-
-.btn-msg-send:hover {
-	background-color: var(--button-hover);
-}
-
-.input-msg {
-	width: max(50%, 16rem);
-	height: 3rem;
-	outline: none;
-	border: none;
-	border-radius: 30px;
-	padding: 0 10px;
-	color: var(--text-primary);
-	background-color: var(--background-secondary);
-}
-
-.input-msg:focus {
-	border-radius: 15px;
+	color: var(--text-primary) !important;
 }
 
 .fs-14 {
@@ -127,4 +89,8 @@ button {
 	border-left: 5px solid var(--highlight-secondary);
 	color: var(--highlight-secondary);
 	background-color: #032830;
+}
+
+.btn-hover-primary:hover {
+	background-color: var(--button-hover);
 }

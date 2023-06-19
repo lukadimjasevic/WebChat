@@ -25,3 +25,9 @@ export const joinGroup = async(data) => {
 	const res = await request("/groups/join", "POST", JSON.stringify({ groupCode: code }));
 	return res;
 }
+
+
+export const exitGroup = async(groupId) => {
+	const res = await request(`/groups/${groupId}`, "DELETE");
+	return res;
+}

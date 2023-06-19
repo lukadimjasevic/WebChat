@@ -3,7 +3,7 @@ import { Outlet, useLoaderData, useNavigation } from "react-router-dom";
 import { Navbar, Loader } from "../components";
 import { useDispatch } from "react-redux";
 import { addUser } from "../features/user";
-import { ToastContainer } from "react-toastify";
+
 
 const Layout = () => {
 
@@ -25,10 +25,9 @@ const Layout = () => {
             <div className="container-fluid bg-custom-primary py-3" >
                 <Outlet />
             </div>
-            <ToastContainer limit={3} theme="colored"/>
+            
         </>
     );
 };
 
 export default Layout;
-//style={{ height: "calc(100vh - 4rem)" }}

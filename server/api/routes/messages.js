@@ -3,7 +3,8 @@ const router = express.Router();
 const messagesController = require("../controllers/messages");
 const { use } = require("../middlewares/use");
 const { checkToken } = require("../middlewares/checkToken");
-const { checkUserGroup, checkMessage } = require("../middlewares/messages");
+const { checkMessage } = require("../middlewares/messages");
+const { checkUserGroup } = require("../middlewares/groups");
 
 
 router.post("/:groupId", use(checkToken), use(checkUserGroup), use(checkMessage), use(messagesController.createMessage));

@@ -1,5 +1,6 @@
 import React from "react";
 import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Layout from "./layouts/Layout";
 import AuthRoutes from "./AuthRoutes";
 import ProtectedRoutes from "./ProtectedRoutes";
@@ -13,6 +14,7 @@ import Chats from "./pages/Chats";
 import { JoinGroup, CreateGroup, Chat } from "./pages/Chats/MenuPages";
 import { getUser } from "./api/users";
 import { getGroup, getUserGroups } from "./api/groups";
+
 
 const App = () => {
 
@@ -49,6 +51,7 @@ const App = () => {
     return (
         <>
             <RouterProvider router={router} />
+            <ToastContainer limit={3} theme="colored"/>
         </>
     );
 };

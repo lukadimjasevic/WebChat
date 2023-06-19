@@ -72,21 +72,7 @@ exports.getUserGroups = async(req, res, next) => {
 
 
 exports.getGroup = async(req, res, next) => {
-	const { user } = res.locals;
 	const { groupId } = req.params;
-
-	const isUserInGroup = await db.user_group_rel.findOne({
-		where: {
-			[Op.and]: [
-				{ user_id: user.user_id },
-				{ group_id: groupId },
-			]
-		}
-	});
-
-	if (!isUserInGroup) {
-		return next(new error.HttpNotFound("Cannot find the user for the requested group"));
-	}
 
 	const groupAttributes = ["group_id", "group_code", "name"];
 	const adminAttributes = ["user_id", "username", "email"];
@@ -97,9 +83,95 @@ exports.getGroup = async(req, res, next) => {
 		include		: [{ model: db.User, attributes: adminAttributes, as: "admin" }]
 	});
 
+	const groupMembers = await db.user_group_rel.findAll({
+		where		: { group_id: groupId },
+		include		: [{ model: db.User, attributes: adminAttributes }]
+	});
+
+	const formattedMembers = groupMembers.map(({ User: { user_id, username, email } }) => {
+		return { user_id, username, email }
+	});
+
+	group.dataValues.members = formattedMembers;
+	
 	return res.json({
 		status: "success",
 		message: "Successfully fetched requested group",
-		group: group,
+		group: group
+	});
+}
+
+
+exports.deleteUserFromGroup = async(req, res, next) => {
+	const { groupId } = req.params
+	const { user } = res.locals;
+
+	// Find the total number of group members
+	const memberCount = await db.user_group_rel.count({
+		where: {
+			group_id: groupId 
+		},
+	});
+
+	// Deleting the relationship between the user and the group
+	await db.user_group_rel.destroy({
+		where: {
+			group_id: groupId, 
+			user_id: user.user_id
+		}
+	});
+
+	if (memberCount === 1) {
+		// Delete the group and group messages
+
+		// Delete all messages
+		await db.Message.destroy({
+			where: {
+				group_id: groupId
+			}
+		});
+
+		// Delete the group
+		await db.Group.destroy({
+			where: {
+				group_id: groupId
+			}
+		});
+	} else {
+		// Delete the member from the group if the member isn't the admin
+		// If the member is the admin, then pass the admin role to the next older member
+
+		// Check if the user is the admin of the group
+		const isAdmin = await db.Group.findOne({
+			where: { 
+				group_id: groupId, 
+				admin_id: user.user_id 
+			}
+		});
+
+		if (isAdmin) {
+			// Find next admin
+			const nextAdmin = await db.user_group_rel.findAll({
+				where		: { group_id: groupId },
+				attributes  : ["user_id"],
+				limit		: 1,
+				order		: [
+					["createdAt", "ASC"]
+				]
+			});
+
+			// Set new admin
+			await db.Group.update(
+				{ admin_id: nextAdmin[0].user_id }, 
+				{ where: {
+					group_id: groupId
+				}}
+			);
+		}
+	}
+
+	return res.json({
+		status: "success",
+		message: "You are successfully exited from the group",
 	});
 }
