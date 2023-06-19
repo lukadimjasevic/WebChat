@@ -1,6 +1,7 @@
 import React from "react";
 import "./MenuPages.css";
 
+
 const Notifications = () => {
     return (
 	<>

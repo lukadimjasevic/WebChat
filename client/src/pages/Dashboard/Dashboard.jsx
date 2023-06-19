@@ -4,6 +4,7 @@ import { Sidebar } from "../../components";
 import { MdPerson, MdSettings, MdPalette, MdNotifications, MdLogout } from "react-icons/md";
 import { Outlet } from "react-router-dom";
 
+
 const Dashboard = () => {
 
     const sidebarLinks = [

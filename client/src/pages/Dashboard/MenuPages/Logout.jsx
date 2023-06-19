@@ -1,12 +1,13 @@
 import React from "react";
 import { logoutUser } from "../../../api/users";
 
+
 const Logout = () => {
 
 	const handleLogout = async() => {
-		const res = await logoutUser();
-
-		if (res.status === "ok") {
+		const { status, message } = await logoutUser();
+		
+		if (status === "success") {
 			location.reload();
 		}
 	}

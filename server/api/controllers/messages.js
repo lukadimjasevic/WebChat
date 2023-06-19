@@ -22,7 +22,7 @@ exports.createMessage = async(req, res, next) => {
 	const newMessage = await dbUtils.createMessage(userId, groupId, message);
 
 	return res.json({
-		status: "ok",
+		status: "success",
 		message: "Message successfully created",
 		data: {
 			message: newMessage.message,
@@ -60,7 +60,7 @@ exports.getMessages = async(req, res, next) => {
 	});
 
 	return res.json({
-		status: "ok",
+		status: "success",
 		message: "Successfully fetched all messages for the requested group",
 		data: formattedMessages
 	});

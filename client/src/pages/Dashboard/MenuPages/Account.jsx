@@ -5,7 +5,8 @@ import { updateAccount } from "../../../api/users";
 import { useDispatch } from "react-redux";
 import { useUser } from "../../../store/hooks";
 import { updateUsername } from "../../../features/user";
-import { show } from "../../../features/alert";
+import { toast } from "react-toastify";
+
 
 const Account = () => {
 
@@ -18,14 +19,15 @@ const Account = () => {
 		usernameRef.current.value = username;
 	}, []);
 
-	const handleOnUpdateAccount = async() => {
-		const res = await updateAccount(account);
+	const handleUpdateAccount = async() => {
+		const { status, message, data } = await updateAccount(account);
 
-		if (res.status === "ok") {
-			dispatch(updateUsername(res.data));
+		if (status === "success") {
+			dispatch(updateUsername(data));
+			console.log("username updated")
 		}
 
-		dispatch(show(res));
+		toast(message, { type: status });
 	}
 
     return (
@@ -53,7 +55,7 @@ const Account = () => {
 			</div>
 		</div>
 		<div className="row g-0 mt-3">
-			<button type="button" className="col-md-3 btn btn-primary btn-lg" onClick={handleOnUpdateAccount}>
+			<button type="button" className="col-md-3 btn btn-primary btn-lg" onClick={handleUpdateAccount}>
 				Update
 			</button>
 		</div>

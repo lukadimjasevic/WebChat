@@ -73,7 +73,7 @@ exports.register = async(req, res, next) => {
 		});
 
 		return res.json({
-			status: "ok",
+			status: "success",
 			message: "Account successfully created",
 			user: {
 				username: user.username,
@@ -115,7 +115,7 @@ exports.login = async(req, res, next) => {
 				});
 
 				return res.json({
-					status: "ok",
+					status: "success",
 					message: "Successfully logged in",
 				});
 			}
@@ -132,7 +132,7 @@ exports.login = async(req, res, next) => {
 		});
 
 		return res.json({
-			status: "ok",
+			status: "success",
 			message: "Successfully logged in",
 		});
 	});
@@ -147,7 +147,7 @@ exports.logout = async(req, res, next) => {
 	res.clearCookie("access_token");
 
 	return res.json({
-		status: "ok",
+		status: "success",
 		message: "Successfully logged out",
 	});
 }
@@ -159,7 +159,7 @@ exports.getUser = async(req, res, next) => {
 	const userData = { username, email, name, bio, picture };
 
 	return res.json({
-		status: "ok",
+		status: "success",
 		message: "Successfully fetched user data",
 		data: userData,
 	});
@@ -188,7 +188,7 @@ exports.updateUserProfile = async(req, res, next) => {
 	user.update({ name, bio });
 	
 	return res.json({
-		status: "ok",
+		status: "success",
 		message: "Successfully updated profile settings",
 	});
 }
@@ -208,7 +208,7 @@ exports.updateUserAccount = async(req, res, next) => {
 	user.update({ username });
 
 	return res.json({
-		status: "ok",
+		status: "success",
 		message: "Successfully updated account settings",
 		data: { username }
 	});

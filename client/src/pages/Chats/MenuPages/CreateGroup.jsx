@@ -2,23 +2,22 @@ import React, { useState, useRef } from "react";
 import { useUser } from "../../../store/hooks";
 import { Group } from "./utils/Group";
 import { createGroup } from "../../../api/groups";
-import { useDispatch } from "react-redux";
-import { show } from "../../../features/alert";
 import { useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 const CreateGroup = () => {
 
 	const user = useUser();
 	const [group, setGroup] = useState(new Group());
 	const groupNameRef = useRef();
-	const dispatch = useDispatch();
 
 	const revalidator = useOutletContext();
 
 	const handleCreateGroup = async() => {
-		const res = await createGroup(group);
+		const { status, message } = await createGroup(group);
 
-		if (res.status === "ok") {
+		if (status === "success") {
 			groupNameRef.current.value = "";
 			setGroup(group.reset());
 
@@ -26,7 +25,7 @@ const CreateGroup = () => {
 			revalidator.revalidate();
 		}
 
-		dispatch(show(res));
+		toast(message, { type: status });
 	}
 
     return (

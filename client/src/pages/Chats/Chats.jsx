@@ -3,6 +3,7 @@ import "./Chats.css";
 import { Outlet, useLoaderData, useRevalidator } from "react-router-dom";
 import { Sidebar } from "../../components";
 
+
 const Chats = () => {
 
 	const userGroups = useLoaderData();

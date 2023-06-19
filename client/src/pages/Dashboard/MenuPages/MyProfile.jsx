@@ -4,12 +4,11 @@ import { AiOutlineUser } from "react-icons/ai";
 import { Profile } from "./utils/Profile";
 import { updateProfile } from "../../../api/users";
 import { useLoaderData } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { show } from "../../../features/alert";
+import { toast } from "react-toastify";
+
 
 const MyProfile = () => {
 
-	const dispatch = useDispatch();
 	const { data: { name, bio, picture }} = useLoaderData();
 
 	const nameRef = useRef();
@@ -24,7 +23,7 @@ const MyProfile = () => {
 		bioRef.current.value = bio;
 	}, []);
 
-	const handleOnChangePicture = () => {
+	const handleChangePicture = () => {
 		const file = pictureRef.current.files[0];
 		setProfile(profile.setPicture(file));
 		
@@ -35,10 +34,9 @@ const MyProfile = () => {
 		reader.readAsDataURL(file);
 	}
 
-	const handleOnUpdateProfile = async() => {
-		const res = await updateProfile(profile);
-
-		dispatch(show(res));
+	const handleUpdateProfile = async() => {
+		const { status, message } = await updateProfile(profile);
+		toast(message, { type: status });
 	}
 
     return (
@@ -82,7 +80,7 @@ const MyProfile = () => {
 					ref={pictureRef} 
 					style={{display: "none"}}
 					className="row g-0"
-					onChange={handleOnChangePicture}
+					onChange={handleChangePicture}
 				/>
 				<button type="button" className="row g-0" onClick={() => pictureRef.current.click()}>
 					{!previewPicture
@@ -96,7 +94,7 @@ const MyProfile = () => {
 			</div>
 		</div>
 		<div className="row g-0 mt-3">
-			<button type="button" className="col-md-3 btn btn-primary btn-lg" onClick={handleOnUpdateProfile}>
+			<button type="button" className="col-md-3 btn btn-primary btn-lg" onClick={handleUpdateProfile}>
 				Update
 			</button>
 		</div>

@@ -16,6 +16,8 @@
 	--highlight-secondary: #0070DA;
 
 	--button-hover: #026acb;
+
+	--toastify-toast-width: 450px;
 }
 
 html {

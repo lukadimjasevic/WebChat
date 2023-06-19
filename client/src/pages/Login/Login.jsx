@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import { LoginData } from "./utils/LoginData";
 import { loginUser } from "../../api/users";
-import { useDispatch } from "react-redux";
-import { show } from "../../features/alert";
+import { toast } from "react-toastify";
+
 
 const Login = () => {
 
-    const dispatch = useDispatch();
     const [login, setLogin] = useState(new LoginData());
 
     const handleLogin = async() => {
-        const res = await loginUser(login);
-        if (res.status !== "ok") {
-            return dispatch(show(res));
+        const { status, message } = await loginUser(login);
+
+        if (status === "success") {
+            location.reload();
+            return;
         }
 
-        location.reload();
+        toast.error(message);
     }
 
     return (

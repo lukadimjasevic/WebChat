@@ -23,7 +23,7 @@ exports.createGroup = async(req, res, next) => {
 	await dbUtils.addUserToGroup(adminId, group.group_id);
 
 	return res.json({
-		status: "ok",
+		status: "success",
 		message: "Group successfully created",
 	});
 }
@@ -54,7 +54,7 @@ exports.joinGroup = async(req, res, next) => {
 	await dbUtils.addUserToGroup(userId, group.group_id);
 
 	return res.json({
-		status: "ok",
+		status: "success",
 		message: "Successfully joined the requested group",
 	});
 }
@@ -74,7 +74,7 @@ exports.getUserGroups = async(req, res, next) => {
 	);
 
 	return res.json({
-		status: "ok",
+		status: "success",
 		message: "Successfully fetched all groups for current user",
 		groups: groups,
 	});
@@ -108,7 +108,7 @@ exports.getGroup = async(req, res, next) => {
 	});
 
 	return res.json({
-		status: "ok",
+		status: "success",
 		message: "Successfully fetched requested group",
 		group: group,
 	});

@@ -49,7 +49,7 @@ io.on("connection", (socket) => {
 		try { auth = await checkToken(accessToken); }
 		catch { return; }
 
-		if (auth.status !== "ok") return;
+		if (auth.status !== "success") return;
 
 		const createdAt = new Date();
 

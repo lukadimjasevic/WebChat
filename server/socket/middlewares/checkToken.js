@@ -14,7 +14,7 @@ exports.checkToken = async(accessToken) => {
 
 
 	return {
-		status: "ok",
+		status: "success",
 		user: user,
 	}
 }

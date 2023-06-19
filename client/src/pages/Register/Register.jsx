@@ -1,25 +1,25 @@
 import React, { useState } from "react";
 import { registerUser } from "../../api/users";
 import { RegisterData } from "./utils/RegisterData";
-import { useDispatch } from "react-redux";
-import { show } from "../../features/alert";
+import { toast } from "react-toastify";
+
 
 const Register = () => {
 
-    const dispatch = useDispatch();
     const [register, setRegister] = useState(new RegisterData());
 
     const handleRegister = async() => {
         if (!register.comparePasswords()) 
             return setAlert(new NotificationWarning("Passwords do not match, please retype"));
         
-        const res = await registerUser(register);
+        const { status, message } = await registerUser(register);
 
-        if (res.status !== "ok") {
-            return dispatch(show(res));
+        if (status === "success") {
+            location.reload();
+            return;
         }
 
-        location.reload();
+        toast.error(message);
     }
     
     return (

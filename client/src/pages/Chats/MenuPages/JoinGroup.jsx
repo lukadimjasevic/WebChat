@@ -1,22 +1,21 @@
 import React, { useState, useRef } from "react";
 import { Group } from "./utils/Group";
 import { joinGroup } from "../../../api/groups";
-import { useDispatch } from "react-redux";
-import { show } from "../../../features/alert";
 import { useOutletContext } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 const JoinGroup = () => {
 
     const [group, setGroup] = useState(new Group());
 	const groupCodeRef = useRef();
-	const dispatch = useDispatch();
 
 	const revalidator = useOutletContext();
 
     const handleJoinGroup = async() => {
-        const res = await joinGroup(group);
+        const { status, message } = await joinGroup(group);
 
-        if (res.status === "ok") {
+        if (status === "success") {
 			groupCodeRef.current.value = "";
 			setGroup(group.reset());
 
@@ -24,7 +23,7 @@ const JoinGroup = () => {
 			revalidator.revalidate();
 		}
 
-		dispatch(show(res));
+		toast(message, { type: status });
     }
 
     return (

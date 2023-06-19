@@ -7,6 +7,8 @@ import { AiOutlineUser } from "react-icons/ai";
 import { socket } from "../../../socket";
 import { Message } from "./utils/Message";
 import { loadMessages, sendMessage } from "../../../api/messages";
+import { toast } from "react-toastify";
+
 
 const Chat = () => {
 
@@ -28,7 +30,7 @@ const Chat = () => {
 		const loadStoredMessages = async() => {
 			const res = await loadMessages(group.group_id);
 
-			if (res.status === "ok") {
+			if (res.status === "success") {
 				// Emit join room event
 				socket.emit("join_room", { groupId: group.group_id });
 				setMessagesReceived(res.data);
@@ -53,10 +55,13 @@ const Chat = () => {
 	const handleSendMessage = async() => {
 		const res = await sendMessage(message);
 
-		if (res.status === "ok") {
+		if (res.status === "success") {
 			socket.emit("receive_message", message);
 			messageRef.current.value = "";
+			return;
 		}
+
+		toast.error(res.message);
 	}
 
 	const formatMessageTime = (messageTime) => {
