@@ -12,20 +12,29 @@ import { toast } from "react-toastify";
 
 const Chat = () => {
 
-	const user = useUser();
-	const [{ access_token }] = useCookies(["access_token"]);
-    const loaderData = useLoaderData();
+    const { group } = useLoaderData();
 
-	if (!loaderData.group) {
+	if (!group) {
 		return <div>Not found</div>
 	}
 
-	const { group } = loaderData;
-
+	
+	const user = useUser();
+	const [{ access_token }] = useCookies(["access_token"]);
 	const messageRef = useRef();
+	const messagesEndRef = useRef();
 	const [message, setMessage] = useState(new Message(user.username, group.group_id, access_token));
 	const [messagesReceived, setMessagesReceived] = useState([]);
-	
+
+
+	// Scrolls to the bottom of the chat
+	const scrollToBottom = () => {
+		messagesEndRef.current.scrollIntoView({ behaviour: "smooth" });
+	}
+
+	useEffect(scrollToBottom, [messagesReceived]);
+
+
 	useEffect(() => {
 		const loadStoredMessages = async() => {
 			const res = await loadMessages(group.group_id);
@@ -40,6 +49,7 @@ const Chat = () => {
 		loadStoredMessages();
 	}, []);
 
+
 	// Runs whenever a socket event is recieved from the server
 	useEffect(() => {
 		socket.on("receive_message", (data) => {
@@ -51,6 +61,7 @@ const Chat = () => {
 		// Remove event listener on component unmount
 		return () => socket.off("receive_message");
 	}, [socket]);
+
 
 	const handleSendMessage = async() => {
 		const res = await sendMessage(message);
@@ -64,12 +75,14 @@ const Chat = () => {
 		toast.error(res.message);
 	}
 
+
 	const formatMessageTime = (messageTime) => {
 		const date = new Date(messageTime);
 		const hours = date.getHours();
 		const minutes = date.getMinutes();
 		return `${hours}:${minutes < 10 ? `0${minutes}` : minutes}`;
 	}
+
 
     return (
 	<>
@@ -93,6 +106,7 @@ const Chat = () => {
 					</div>
 				</div>
 			))}
+			<div ref={messagesEndRef} />
 		</div>
 
 		<div className="row g-0 input-group px-3 my-3 chat-footer">
