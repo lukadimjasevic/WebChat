@@ -1,6 +1,6 @@
-import Navbar from "./Navbar";
-import Loader from "./Loader";
-import Sidebar from "./Sidebar";
+import Navbar from "./Navbar/Navbar";
+import Loader from "./Loader/Loader";
+import Sidebar from "./Sidebar/Sidebar";
 
 
 export {

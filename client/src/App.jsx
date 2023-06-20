@@ -9,10 +9,8 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import NoPage from "./pages/NoPage";
-import Dashboard from "./pages/Dashboard";
-import { MyProfile, Account, Appearance, Notifications, Logout } from "./pages/Dashboard/MenuPages";
-import Chats from "./pages/Chats";
-import { JoinGroup, CreateGroup, Chat } from "./pages/Chats/MenuPages";
+import { Dashboard, MyProfile, Account, Appearance, Notifications, Logout } from "./pages/Dashboard";
+import { Chats, JoinGroup, CreateGroup, Chat } from "./pages/Chats";
 import { getUser } from "./api/users";
 import { getGroup, getUserGroups } from "./api/groups";
 
