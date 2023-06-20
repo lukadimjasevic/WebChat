@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { createGroup, joinGroup, exitGroup } from "../api/groups";
+import { routes } from "../routes";
 import { toast } from "react-toastify";
 
 
@@ -99,7 +100,7 @@ export class Group {
 		if (status === "success") {
 			// Updating groups list
 			revalidator.revalidate();
-			navigate(`/chats/${groupId}`);
+			navigate(`${routes.chat}/${groupId}`);
 
 			this.reset();
 		}
@@ -114,7 +115,7 @@ export class Group {
 		if (status === "success") {
 			// Updating groups list
 			revalidator.revalidate();
-			navigate(`/chats/${groupId}`);
+			navigate(`${routes.chat}/${groupId}`);
 
 			this.reset();
 		}

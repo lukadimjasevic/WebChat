@@ -1,5 +1,6 @@
 import React from "react";
 import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider } from "react-router-dom";
+import { routes } from "./routes";
 import { ToastContainer } from "react-toastify";
 import Layout from "./layouts/Layout";
 import AuthRoutes from "./AuthRoutes";
@@ -20,25 +21,25 @@ const App = () => {
 
     const router = createBrowserRouter(
         createRoutesFromElements(
-            <Route path="/" element={<Layout />} loader={getUser}>
+            <Route path={routes.home} element={<Layout />} loader={getUser}>
                 <Route index element={<Home />} />
                 <Route element={<AuthRoutes />}>
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route path={routes.register} element={<Register />} />
+                    <Route path={routes.login} element={<Login />} />
                 </Route>
                 <Route element={<ProtectedRoutes />}>
                     <Route path="/dashboard" element={<Dashboard />}>
-                        <Route index element={<Navigate to="/dashboard/profile"/>} />
-                        <Route path="/dashboard/profile" element={<MyProfile />} loader={getUser} />
-                        <Route path="/dashboard/account" element={<Account />} />
-                        <Route path="/dashboard/appearance" element={<Appearance />} />
-                        <Route path="/dashboard/notifications" element={<Notifications />} />
-                        <Route path="/dashboard/logout" element={<Logout />} />
+                        <Route index element={<Navigate to={routes.dashProfile}/>} />
+                        <Route path={routes.dashProfile} element={<MyProfile />} loader={getUser} />
+                        <Route path={routes.dashAccount} element={<Account />} />
+                        <Route path={routes.dashAppearance} element={<Appearance />} />
+                        <Route path={routes.dashNotifications} element={<Notifications />} />
+                        <Route path={routes.dashLogout} element={<Logout />} />
                     </Route>
                     <Route path="/chats" element={<Chats />} loader={getUserGroups}>
-                        <Route path="/chats/join" element={<JoinGroup />} />
-                        <Route path="/chats/create" element={<CreateGroup />} />
-                        <Route path="/chats/:groupId" element={<Chat />} 
+                        <Route path={routes.chatJoin} element={<JoinGroup />} />
+                        <Route path={routes.chatCreate} element={<CreateGroup />} />
+                        <Route path={`${routes.chat}/:groupId`} element={<Chat />} 
                             loader={({ params }) => getGroup(params.groupId)}
                         />
                     </Route>

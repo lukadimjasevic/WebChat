@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "../../store/hooks";
+import { navbarPublicLinks, navbarAuthLinks, navbarProtectedLinks } from "../../routes";
+
 
 const Navbar = () => {
 
@@ -8,22 +10,8 @@ const Navbar = () => {
 
 	let links;
 
-	const publicLinks = [
-		{ path: "/", name: "Home" },
-	];
-
-	const authLinks = [
-		{ path: "/register", name: "Register" },
-		{ path: "/login", name: "Login" },
-	];
-
-	const protectedLinks = [
-		{ path: "/chats", name: "Chats" },
-		{ path: "/dashboard", name: "Dashboard" }
-	]
-
-	if (!user.username) links = publicLinks.concat(authLinks);
-	else links = publicLinks.concat(protectedLinks);
+	if (!user.username) links = navbarPublicLinks.concat(navbarAuthLinks);
+	else links = navbarPublicLinks.concat(navbarProtectedLinks);
 
     return (
 	<nav className="navbar navbar-expand-sm bg-primary bg-body-tertiary">
@@ -31,7 +19,7 @@ const Navbar = () => {
 			<span className="navbar-brand text-primary">WebChat</span>
 			<button 
 				type="button" 
-				className="navbar-toggler" 
+				className="navbar-toggler btn-close-white" 
 				data-bs-toggle="collapse" 
 				data-bs-target="#navbarNavAltMarkup" 
 				aria-controls="navbarNavAltMarkup" 
@@ -53,5 +41,6 @@ const Navbar = () => {
 	</nav>
 	);
 };
+
 
 export default Navbar;

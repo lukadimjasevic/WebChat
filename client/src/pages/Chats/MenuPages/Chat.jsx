@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLoaderData, useOutletContext, useNavigate } from "react-router-dom";
+import { routes } from "../../../routes";
 import { useUser } from "../../../store/hooks";
 import { useCookies } from "react-cookie";
 import { BsFillSendFill } from "react-icons/bs";
@@ -182,7 +183,7 @@ const ExitGroup = ({ group }) => {
 
 					<div className="modal-footer border-custom-secondary">
 						<button type="button" className="btn btn-danger" data-bs-dismiss="modal" 
-								onClick={() => group.exit(revalidator, () => navigate("/chats"))}
+								onClick={() => group.exit(revalidator, () => navigate(routes.chat))}
 						>
 							Exit
 						</button>

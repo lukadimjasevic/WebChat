@@ -2,6 +2,7 @@ import React from "react";
 import "./Chats.css";
 import { Outlet, useLoaderData, useRevalidator } from "react-router-dom";
 import { Sidebar } from "../../components";
+import { routes, chatsSidebarLinks } from "../../routes";
 
 
 const Chats = () => {
@@ -10,26 +11,14 @@ const Chats = () => {
 	const revalidator = useRevalidator();
 
 	const groups = userGroups.groups.map(({ name, group_id }) => {
-		return { name, path: "/chats/" + group_id };
+		return { path: `${routes.chat}/${group_id}`, name };
 	});
 
-	const sidebarLinks = [
-        { 
-            category: "Join / Create group", 
-            items: [
-                { name: "Join", path: "/chats/join" },
-                { name: "Create", path: "/chats/create" },
-            ]
-        },
-		{
-			category: "Chats",
-			items: groups
-		}
-    ];
+    chatsSidebarLinks[1].items = groups;
 
     return (
 	<div className="d-flex flex-column flex-md-row gap-3">
-        <Sidebar links={sidebarLinks} />
+        <Sidebar links={chatsSidebarLinks} />
         <div className="container-fluid g-0 bg-custom-secondary rounded">
             <Outlet context={revalidator} />
         </div>

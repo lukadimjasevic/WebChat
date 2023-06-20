@@ -3,11 +3,13 @@ import "./Sidebar.css";
 import { Link } from "react-router-dom";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 
+
 const Sidebar = ({ links }) => {
 
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 	const [isOpen, setIsOpen] = useState(windowWidth > 767 ? true : false);
 	const [selectedItem, setSelectedItem] = useState(null);
+
 
 	useEffect(() => {
 		const handleWindowResize = () => {
@@ -25,6 +27,7 @@ const Sidebar = ({ links }) => {
 		}
 	}, []);
 
+	
     return (
 	<div className={`sidebar ${!isOpen ? "closed" : "open"} p-3 rounded bg-custom-secondary`}>
 		{windowWidth <= 767 
@@ -74,5 +77,6 @@ const Sidebar = ({ links }) => {
 	</div>
 	);
 };
+
 
 export default Sidebar;
