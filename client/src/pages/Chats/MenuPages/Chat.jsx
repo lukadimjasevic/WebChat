@@ -7,82 +7,55 @@ import { AiOutlineUser } from "react-icons/ai";
 import { GoKebabHorizontal } from "react-icons/go";
 import { socket } from "../../../socket";
 import { Message } from "./utils/Message";
-import { loadMessages, sendMessage } from "../../../api/messages";
-import { exitGroup } from "../../../api/groups";
-import { toast } from "react-toastify";
+import { MessagesReceived } from "./utils/MessagesReceived";
+import { Group } from "./utils/Group";
 
 
 const Chat = () => {
 
-    const { group } = useLoaderData();
+    const { group: loadedGroup } = useLoaderData();
+	
+	if (!loadedGroup) return <div>Not found</div>
 
-	if (!group) {
-		return <div>Not found</div>
-	}
+	const group = new Group(
+		loadedGroup.name, 
+		loadedGroup.group_code, 
+		loadedGroup.group_id, 
+		loadedGroup.admin, 
+		loadedGroup.members
+	);
 
 	const user = useUser();
 	const [{ access_token }] = useCookies(["access_token"]);
-	const messageRef = useRef();
-	const messagesEndRef = useRef();
-	const [message, setMessage] = useState(new Message(group.group_id, access_token));
+	
 	const [messagesReceived, setMessagesReceived] = useState([]);
+	const message = new Message(group.getId(), access_token);
+	const messages = new MessagesReceived(group.getId(), setMessagesReceived);
+	const messagesEndRef = useRef();
+
+
+	// Loads messages on the first render
+	useEffect(() => {
+		const loadMessages = async() => await messages.load();
+		loadMessages();
+	}, []);
 
 
 	// Scrolls to the bottom of the chat
-	const scrollToBottom = () => {
-		messagesEndRef.current.scrollIntoView({ behaviour: "smooth" });
-	}
-
-	useEffect(scrollToBottom, [messagesReceived]);
-
-
 	useEffect(() => {
-		const loadStoredMessages = async() => {
-			const res = await loadMessages(group.group_id);
-
-			if (res.status === "success") {
-				// Emit join room event
-				socket.emit("join_room", { groupId: group.group_id });
-				setMessagesReceived(res.data);
-			}
-		}
-
-		loadStoredMessages();
-	}, []);
+		messagesEndRef.current.scrollIntoView({ behaviour: "smooth" });
+	}, [messagesReceived]);
 
 
 	// Runs whenever a socket event is recieved from the server
 	useEffect(() => {
 		socket.on("receive_message", (data) => {
-			setMessagesReceived((state) => [
-				...state, data
-			]);
+			setMessagesReceived((state) => [...state, data]);
 		});
 		
 		// Remove event listener on component unmount
 		return () => socket.off("receive_message");
 	}, [socket]);
-
-
-	const handleSendMessage = async() => {
-		const res = await sendMessage(message);
-
-		if (res.status === "success") {
-			socket.emit("receive_message", message);
-			messageRef.current.value = "";
-			return;
-		}
-
-		toast.error(res.message);
-	}
-
-
-	const formatMessageTime = (messageTime) => {
-		const date = new Date(messageTime);
-		const hours = date.getHours();
-		const minutes = date.getMinutes();
-		return `${hours}:${minutes < 10 ? `0${minutes}` : minutes}`;
-	}
 
 
     return (
@@ -114,7 +87,7 @@ const Chat = () => {
 					<div className="row row-cols-1 g-0 p-3 align-items-center rounded msg">
 						<div className="col row g-0">
 							<span className="col msg-username">{username}</span>
-							<span className="col msg-time">{formatMessageTime(createdAt)}</span>		
+							<span className="col msg-time">{messages.formatMessageTime(createdAt)}</span>		
 						</div>
 						<p className="col m-0">{message}</p>
 					</div>
@@ -128,10 +101,10 @@ const Chat = () => {
 				type="text" 
 				className="col-9 col-sm-10 form-control bg-custom-primary text-primary border-custom-primary" 
 				placeholder="Message"
-				onChange={(e) => setMessage(message.setMessage(e.target.value))}
-				ref={messageRef}
+				onChange={(e) => message.setMessage(e.target.value)}
+				ref={message.messageRef}
 			/>
-			<button type="button" className="col-3 col-sm-2 btn btn-primary" onClick={handleSendMessage}>
+			<button type="button" className="col-3 col-sm-2 btn btn-primary" onClick={message.send}>
 				<BsFillSendFill size={20} />
 			</button>
 		</div>
@@ -145,11 +118,7 @@ const Chat = () => {
 
 const GroupInfo = ({ group }) => {
 
-	const admin = group.admin.username;
-	const name = group.name;
-	const code = group.group_code;
-	const members = group.members;
-	const memberCount = group.members.length;
+	const memberCount = group.countMembers();
 
 	return (
 		<div className="modal" id="groupInfoModal" tabIndex={-1}>
@@ -163,17 +132,17 @@ const GroupInfo = ({ group }) => {
 
 					<div className="modal-body">
 						<div className="row text-center">
-							<span className="col">{name} - {memberCount} {memberCount > 1 ? "members" : "member"}</span>
+							<span className="col">{group.getName()} - {memberCount} {memberCount > 1 ? "members" : "member"}</span>
 						</div>
 						<div className="row text-center my-3">
-							<span className="col">Group code <span className="text-highlight">{code}</span></span>
+							<span className="col">Group code <span className="text-highlight">{group.getCode()}</span></span>
 						</div>
 						<table className="table table-borderless my-3">
 							<tbody>
-								{members.map(({ username }, index) => (
+								{group.getMembers().map(({ username }, index) => (
 									<tr key={index} className="text-primary btn-hover-primary row g-0">
 										<td className="col-10">{username}</td>
-										<td className="col-2">{username === admin ? "Admin" : "Member"}</td>
+										<td className="col-2">{username === group.getAdmin() ? "Admin" : "Member"}</td>
 									</tr>	
 								))}
 							</tbody>
@@ -197,21 +166,7 @@ const ExitGroup = ({ group }) => {
 
 	const revalidator = useOutletContext();
 	const navigate = useNavigate();
-	const groupId = group.group_id;
-	const name = group.name;
 	
-	const handleExitGroup = async() => {
-		const { status, message } = await exitGroup(groupId);
-
-		if (status === "success") {
-			// Updating groups list
-			revalidator.revalidate();
-			navigate("/chats");
-		}
-
-		toast(message, { type: status });
-	}
-
 
 	return (
 		<div className="modal" id="exitGroupModal" tabIndex={-1}>
@@ -224,13 +179,15 @@ const ExitGroup = ({ group }) => {
 					</div>
 
 					<div className="modal-body">
-						<span>Are you sure you want to exit group <span className="text-highlight">{name}</span> ?</span>
+						<span>Are you sure you want to exit group <span className="text-highlight">{group.getName()}</span> ?</span>
 					</div>
 
 					<div className="modal-footer border-custom-secondary">
-						<button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={handleExitGroup}>
+						<button type="button" className="btn btn-danger" data-bs-dismiss="modal" 
+								onClick={() => group.exit(revalidator, () => navigate("/chats"))}
+						>
 							Exit
-							</button>
+						</button>
 						<button type="button" className="btn btn-outline-secondary" data-bs-dismiss="modal">
 							Close
 						</button>

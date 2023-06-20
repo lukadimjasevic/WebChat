@@ -15,6 +15,7 @@ exports.createGroup = async(req, res, next) => {
 	return res.json({
 		status: "success",
 		message: "Group successfully created",
+		data: group,
 	});
 }
 
@@ -46,6 +47,7 @@ exports.joinGroup = async(req, res, next) => {
 	return res.json({
 		status: "success",
 		message: "Successfully joined the requested group",
+		data: group
 	});
 }
 

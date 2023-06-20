@@ -1,32 +1,15 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import { useUser } from "../../../store/hooks";
 import { Group } from "./utils/Group";
-import { createGroup } from "../../../api/groups";
-import { useOutletContext } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useOutletContext, useNavigate } from "react-router-dom";
 
 
 const CreateGroup = () => {
 
+	const group = new Group();
 	const user = useUser();
-	const [group, setGroup] = useState(new Group());
-	const groupNameRef = useRef();
-
 	const revalidator = useOutletContext();
-
-	const handleCreateGroup = async() => {
-		const { status, message } = await createGroup(group);
-
-		if (status === "success") {
-			groupNameRef.current.value = "";
-			setGroup(group.reset());
-
-			// Updating groups list
-			revalidator.revalidate();
-		}
-
-		toast(message, { type: status });
-	}
+	const navigate = useNavigate();
 
     return (
 	<div className="p-3">
@@ -62,12 +45,14 @@ const CreateGroup = () => {
 						id="group-create"
 						className="form-control bg-custom-primary text-primary border-custom-primary" 
 						placeholder="Enter a group name..." 
-						onChange={(e) => setGroup(group.setName(e.target.value))}
-						ref={groupNameRef}
+						onChange={(e) => group.setName(e.target.value)}
+						ref={group.nameRef}
 					/>
 					<label htmlFor="group-create">Group name</label>
 				</div>
-				<button type="button" className="col-3 col-sm-2 btn btn-primary" onClick={handleCreateGroup}>
+				<button type="button" className="col-3 col-sm-2 btn btn-primary" 
+						onClick={() => group.create(revalidator, navigate)}
+				>
 					Create
 				</button>
 			</div>
@@ -75,5 +60,6 @@ const CreateGroup = () => {
 	</div>
 	);
 };
+
 
 export default CreateGroup;

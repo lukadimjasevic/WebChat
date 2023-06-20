@@ -1,30 +1,13 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import { Group } from "./utils/Group";
-import { joinGroup } from "../../../api/groups";
-import { useOutletContext } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useOutletContext, useNavigate } from "react-router-dom";
 
 
 const JoinGroup = () => {
 
-    const [group, setGroup] = useState(new Group());
-	const groupCodeRef = useRef();
-
+	const group = new Group();
 	const revalidator = useOutletContext();
-
-    const handleJoinGroup = async() => {
-        const { status, message } = await joinGroup(group);
-
-        if (status === "success") {
-			groupCodeRef.current.value = "";
-			setGroup(group.reset());
-
-			// Updating groups list
-			revalidator.revalidate();
-		}
-
-		toast(message, { type: status });
-    }
+	const navigate = useNavigate();
 
     return (
     <div className="p-3">
@@ -45,12 +28,14 @@ const JoinGroup = () => {
 						id="group-join"
 						className="form-control bg-custom-primary text-primary border-custom-primary" 
 						placeholder="Enter a group code, eg. u1lf4wshx9" 
-						onChange={(e) => setGroup(group.setCode(e.target.value))}
-						ref={groupCodeRef}
+						onChange={(e) => group.setCode(e.target.value)}
+						ref={group.codeRef}
 					/>
 					<label htmlFor="group-join">Group code</label>
 				</div>
-				<button type="button" className="col-3 col-sm-2 btn btn-primary" onClick={handleJoinGroup}>
+				<button type="button" className="col-3 col-sm-2 btn btn-primary" 
+						onClick={() => group.join(revalidator, navigate)}
+				>
 					Join
 				</button>
 			</div>
@@ -58,5 +43,6 @@ const JoinGroup = () => {
     </div>
     );
 };
+
 
 export default JoinGroup;

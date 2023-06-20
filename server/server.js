@@ -40,6 +40,7 @@ io.on("connection", (socket) => {
 
 	socket.on("join_room", ({ groupId }) => {
 		socket.join(groupId);
+		return;
 	});
 
 	socket.on("receive_message", async(data) => {
