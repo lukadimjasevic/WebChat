@@ -1,16 +1,10 @@
 import React from "react";
-import { logoutUser } from "../../../api/users";
+import { User } from "../../../models/User";
 
 
 const Logout = () => {
 
-	const handleLogout = async() => {
-		const { status, message } = await logoutUser();
-		
-		if (status === "success") {
-			location.reload();
-		}
-	}
+	const user = new User();
 
     return (
 	<>
@@ -19,12 +13,13 @@ const Logout = () => {
 			<hr className="col" />
 		</div>
 		<div className="row g-0 mt-3 justify-content-center">
-			<button type="button" className="col-md-3 btn btn-danger btn-lg" onClick={handleLogout}>
+			<button type="button" className="col-md-3 btn btn-danger btn-lg" onClick={() => user.logout()}>
 				Logout
 			</button>
 		</div>
 	</>
 	);
 };
+
 
 export default Logout;

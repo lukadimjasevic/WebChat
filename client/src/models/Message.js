@@ -1,6 +1,6 @@
 import { useRef } from "react";
-import { sendMessage } from "../../../../api/messages";
-import { socket } from "../../../../socket";
+import { sendMessage } from "../api/messages";
+import { socket } from "../socket";
 import { toast } from "react-toastify";
 
 

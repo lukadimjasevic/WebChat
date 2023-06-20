@@ -1,34 +1,21 @@
-import React, { useState, useRef, useEffect } from "react";
-import "./MenuPages.css";
-import { AccountData } from "./utils/Account";
-import { updateAccount } from "../../../api/users";
+import React, { useEffect } from "react";
+import { UserAccount } from "../../../models";
 import { useDispatch } from "react-redux";
 import { useUser } from "../../../store/hooks";
-import { updateUsername } from "../../../features/user";
-import { toast } from "react-toastify";
 
 
 const Account = () => {
 
 	const dispatch = useDispatch();
 	const { username } = useUser();
-	const usernameRef = useRef();
-	const [account, setAccount] = useState(new AccountData());
+	const account = new UserAccount(username);
 
+
+	// Sets loaded username
 	useEffect(() => {
-		usernameRef.current.value = username;
+		account.setUsernameRef(username);
 	}, []);
 
-	const handleUpdateAccount = async() => {
-		const { status, message, data } = await updateAccount(account);
-
-		if (status === "success") {
-			dispatch(updateUsername(data));
-			console.log("username updated")
-		}
-
-		toast(message, { type: status });
-	}
 
     return (
 	<>
@@ -48,19 +35,22 @@ const Account = () => {
 					id="username"
 					placeholder="New username"
 					className="form-control bg-custom-primary text-primary border-custom-primary"
-					onChange={(e) => setAccount(account.setUsername(e.target.value))}
-					ref={usernameRef}
+					onChange={(e) => account.setUsername(e.target.value)}
+					ref={account.getUsernameRef()}
 				/>
 				<label htmlFor="username">Username</label>
 			</div>
 		</div>
 		<div className="row g-0 mt-3">
-			<button type="button" className="col-md-3 btn btn-primary btn-lg" onClick={handleUpdateAccount}>
+			<button type="button" className="col-md-3 btn btn-primary btn-lg" 
+					onClick={() => account.update(dispatch)}
+			>
 				Update
 			</button>
 		</div>
 	</>
 	);
 };
+
 
 export default Account;

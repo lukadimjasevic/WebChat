@@ -1,23 +1,10 @@
-import React, { useState } from "react";
-import { LoginData } from "./utils/LoginData";
-import { loginUser } from "../../api/users";
-import { toast } from "react-toastify";
+import React from "react";
+import { User } from "../../models/User";
 
 
 const Login = () => {
 
-    const [login, setLogin] = useState(new LoginData());
-
-    const handleLogin = async() => {
-        const { status, message } = await loginUser(login);
-
-        if (status === "success") {
-            location.reload();
-            return;
-        }
-
-        toast.error(message);
-    }
+    const user = new User();
 
     return (
     <div className="container">
@@ -32,7 +19,7 @@ const Login = () => {
                 id="email" 
                 placeholder="Enter an email" 
                 className="form-control bg-custom-secondary text-primary border-custom-primary"
-                onChange={(e) => setLogin(login.setEmail(e.target.value))}
+                onChange={(e) => user.setEmail(e.target.value)}
             />
             <label htmlFor="email">Email</label>
         </div>
@@ -43,13 +30,13 @@ const Login = () => {
                 id="password" 
                 placeholder="Enter a password" 
                 className="form-control bg-custom-secondary text-primary border-custom-primary"
-                onChange={(e) => setLogin(login.setPassword(e.target.value))}
+                onChange={(e) => user.setPassword(e.target.value)}
             />
             <label htmlFor="password">Password</label>
         </div>
 
         <div className="row g-0">
-            <button type="button" className="col-md-4 btn btn-primary btn-lg" onClick={handleLogin}>
+            <button type="button" className="col-md-4 btn btn-primary btn-lg" onClick={() => user.login()}>
                 Login
             </button>
         </div>
@@ -57,5 +44,6 @@ const Login = () => {
     </div>
     );
 };
+
 
 export default Login;

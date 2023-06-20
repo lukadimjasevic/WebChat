@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { createGroup, joinGroup, exitGroup } from "../../../../api/groups";
+import { createGroup, joinGroup, exitGroup } from "../api/groups";
 import { toast } from "react-toastify";
 
 

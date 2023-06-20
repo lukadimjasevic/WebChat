@@ -6,9 +6,7 @@ import { BsFillSendFill } from "react-icons/bs";
 import { AiOutlineUser } from "react-icons/ai";
 import { GoKebabHorizontal } from "react-icons/go";
 import { socket } from "../../../socket";
-import { Message } from "./utils/Message";
-import { MessagesReceived } from "./utils/MessagesReceived";
-import { Group } from "./utils/Group";
+import { Group, Message, MessagesReceived } from "../../../models";
 
 
 const Chat = () => {

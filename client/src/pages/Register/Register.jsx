@@ -1,26 +1,10 @@
-import React, { useState } from "react";
-import { registerUser } from "../../api/users";
-import { RegisterData } from "./utils/RegisterData";
-import { toast } from "react-toastify";
+import React from "react";
+import { User } from "../../models/User";
 
 
 const Register = () => {
 
-    const [register, setRegister] = useState(new RegisterData());
-
-    const handleRegister = async() => {
-        if (!register.comparePasswords()) 
-            return setAlert(new NotificationWarning("Passwords do not match, please retype"));
-        
-        const { status, message } = await registerUser(register);
-
-        if (status === "success") {
-            location.reload();
-            return;
-        }
-
-        toast.error(message);
-    }
+    const user = new User();
     
     return (
     <div className="container">
@@ -35,7 +19,7 @@ const Register = () => {
                 id="username" 
                 placeholder="Enter a username" 
                 className="form-control bg-custom-secondary text-primary border-custom-primary"
-                onChange={(e) => setRegister(register.setUsername(e.target.value))} 
+                onChange={(e) => user.setUsername(e.target.value)} 
             />
             <label htmlFor="username">Username</label>
         </div>
@@ -46,7 +30,7 @@ const Register = () => {
                 id="email" 
                 placeholder="Enter an email" 
                 className="form-control bg-custom-secondary text-primary border-custom-primary"
-                onChange={(e) => setRegister(register.setEmail(e.target.value))}
+                onChange={(e) => user.setEmail(e.target.value)}
             />
             <label htmlFor="email">Email</label>
         </div>
@@ -57,7 +41,7 @@ const Register = () => {
                 id="password" 
                 placeholder="Create a password" 
                 className="form-control bg-custom-secondary text-primary border-custom-primary"
-                onChange={(e) => setRegister(register.setPassword(e.target.value))}
+                onChange={(e) => user.setPassword(e.target.value)}
             />
             <label htmlFor="password">Password</label>
         </div>
@@ -68,13 +52,13 @@ const Register = () => {
                 id="password-retype" 
                 placeholder="Retype a password" 
                 className="form-control bg-custom-secondary text-primary border-custom-primary"
-                onChange={(e) => setRegister(register.setRetypePassword(e.target.value))}
+                onChange={(e) => user.setRetypePassword(e.target.value)}
             />
             <label htmlFor="password-retype">Retype a password</label>
         </div>
 
         <div className="row g-0">
-            <button type="button" className="col-md-4 btn btn-primary btn-lg" onClick={handleRegister}>
+            <button type="button" className="col-md-4 btn btn-primary btn-lg" onClick={() => user.register()}>
                 Register
             </button>
         </div>
@@ -82,5 +66,6 @@ const Register = () => {
     </div>
     );
 }
+
 
 export default Register;

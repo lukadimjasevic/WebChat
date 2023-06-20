@@ -1,5 +1,4 @@
 import React from "react";
-import "./MenuPages.css";
 
 
 const Notifications = () => {
@@ -10,5 +9,6 @@ const Notifications = () => {
 	</>
 	);
 };
+
 
 export default Notifications;

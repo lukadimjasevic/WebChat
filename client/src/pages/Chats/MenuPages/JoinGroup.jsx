@@ -1,5 +1,5 @@
 import React from "react";
-import { Group } from "./utils/Group";
+import { Group } from "../../../models";
 import { useOutletContext, useNavigate } from "react-router-dom";
 
 

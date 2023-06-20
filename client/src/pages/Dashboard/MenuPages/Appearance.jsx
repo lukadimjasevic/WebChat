@@ -1,5 +1,4 @@
 import React from "react";
-import "./MenuPages.css";
 
 
 const Appearance = () => {
@@ -10,5 +9,6 @@ const Appearance = () => {
 	</>
 	);
 };
+
 
 export default Appearance;

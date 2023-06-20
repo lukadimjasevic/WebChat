@@ -1,5 +1,5 @@
-import { loadMessages } from "../../../../api/messages";
-import { socket } from "../../../../socket";
+import { loadMessages } from "../api/messages";
+import { socket } from "../socket";
 
 
 export class MessagesReceived {
